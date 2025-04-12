@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "517816691956",
+    "firebase_url": "https://btlandroidnc-76382-default-rtdb.firebaseio.com",
+    "project_id": "btlandroidnc-76382",
+    "storage_bucket": "btlandroidnc-76382.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517816691956:android:f8f19534c2eb9c5fb5c2a1",
+        "android_client_info": {
+          "package_name": "com.example.btl1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBREFG4pul6ODu3KoF5h_hnUB59XmFI9c8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

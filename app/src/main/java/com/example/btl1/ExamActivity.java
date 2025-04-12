@@ -1,0 +1,68 @@
+package com.example.btl1;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ExamActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private QuestionAdapter adapter;
+    private List<Question> questionList;
+    private Button btnSubmit;
+    private int correctAnswers = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_exam);
+
+        recyclerView = findViewById(R.id.recyclerViewExam);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        questionList = new ArrayList<>();
+        adapter = new QuestionAdapter(this, questionList);
+        recyclerView.setAdapter(adapter);
+
+        btnSubmit = findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(v -> checkAnswers());
+
+        loadExamQuestions();
+    }
+
+    private void loadExamQuestions() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Questions").limit(25).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    questionList.add(document.toObject(Question.class));
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void checkAnswers() {
+//        correctAnswers = 0;
+//        for (int i = 0; i < questionList.size(); i++) {
+//            Question question = questionList.get(i);
+//            RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(i);
+//            if (viewHolder instanceof QuestionAdapter.ViewHolder) {
+//                QuestionAdapter.ViewHolder qHolder = (QuestionAdapter.ViewHolder) viewHolder;
+//                int selectedAnswer = qHolder.rgOptions.getCheckedRadioButtonId();
+//                if (selectedAnswer == question.getCorrectAnswer()) {
+//                    correctAnswers++;
+//                }
+//            }
+//        }
+        Toast.makeText(this, "Bạn trả lời đúng " + correctAnswers + "/" + questionList.size(), Toast.LENGTH_LONG).show();
+    }
+}

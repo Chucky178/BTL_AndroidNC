@@ -1,0 +1,53 @@
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/img_topic"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:contentDescription="Icon chủ đề"
+            android:padding="15dp"
+            android:src="@drawable/ic_launcher_foreground"
+            app:tint="@color/light_purple" />
+
+        <LinearLayout
+            android:layout_width="288dp"
+            android:layout_height="89dp"
+            android:orientation="vertical"
+            android:paddingLeft="8dp">
+
+            <TextView
+                android:id="@+id/tv_topic_name"
+                android:layout_width="274dp"
+                android:layout_height="57dp"
+                android:gravity="center_vertical"
+                android:text="Tên chủ đề"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/light_purple"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvQuestionCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 câu"
+                android:textColorHint="@color/light_purple"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

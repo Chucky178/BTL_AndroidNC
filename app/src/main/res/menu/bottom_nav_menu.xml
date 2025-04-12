@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_questions"
+        android:icon="@drawable/ic_question"
+        android:title="Câu hỏi"
+        android:tint="@color/light_purple"/>
+
+    <item android:id="@+id/menu_exam"
+        android:icon="@drawable/ic_exam"
+        android:title="Thi thử"
+        android:tint="@color/light_purple"/>
+
+    <item android:id="@+id/menu_tips"
+        android:icon="@drawable/ic_tips"
+        android:title="Mẹo thi"
+        android:tint="@color/light_purple"/>
+
+    <item android:id="@+id/menu_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="Cá nhân"
+        android:tint="@color/light_purple"/>
+</menu>
