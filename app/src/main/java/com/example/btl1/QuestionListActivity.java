@@ -24,6 +24,7 @@ public class QuestionListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewQuestions);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
         // Nhận mã nhóm câu hỏi từ Intent
         Intent intent = getIntent();
         String maNhomCauHoi = intent.getStringExtra("ma_nhom_cau_hoi");
@@ -47,6 +48,8 @@ public class QuestionListActivity extends AppCompatActivity {
                     questionList = data;
                     questionAdapter = new QuestionAdapter(QuestionListActivity.this, questionList);
                     recyclerView.setAdapter(questionAdapter);
+                    questionAdapter.notifyDataSetChanged();
+
                 } else {
                     Toast.makeText(QuestionListActivity.this, "Không có câu hỏi nào", Toast.LENGTH_SHORT).show();
                 }
