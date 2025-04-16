@@ -1,4 +1,4 @@
-package com.example.btl1;
+package com.example.btl1.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.btl1.R;
+import com.example.btl1.activities.QuestionDetailActivity;
+import com.example.btl1.models.Question;
 
 import java.util.List;
 

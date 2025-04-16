@@ -1,8 +1,10 @@
-package com.example.btl1;
+package com.example.btl1.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.btl1.R;
+import com.example.btl1.adapters.TopicAdapter;
+import com.example.btl1.models.Topic;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,6 +55,15 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, QuestionListActivity.class);
             intent.putExtra("ma_nhom_cau_hoi", topic.getMa_nhom_cau_hoi());
             startActivity(intent);
+        });
+
+        LinearLayout layoutTips = findViewById(R.id.layoutTips);
+        ((android.view.View) layoutTips).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TipsActivity.class);
+                startActivity(intent);
+            }
         });
     }
 

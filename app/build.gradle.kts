@@ -37,6 +37,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation ("com.google.firebase:firebase-database:20.2.1")
     implementation("androidx.annotation:annotation:1.7.0")
+    implementation ("androidx.viewpager2:viewpager2:1.0.0")
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.appcompat)

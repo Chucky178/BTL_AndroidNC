@@ -1,4 +1,4 @@
-package com.example.btl1;
+package com.example.btl1.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.btl1.adapters.QuestionAdapter;
+import com.example.btl1.Repostories.QuestionRepository;
+import com.example.btl1.R;
+import com.example.btl1.models.Question;
 
 import java.util.List;
 

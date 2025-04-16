@@ -1,4 +1,4 @@
-package com.example.btl1;
+package com.example.btl1.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.btl1.R;
+import com.example.btl1.models.ExamResult;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
