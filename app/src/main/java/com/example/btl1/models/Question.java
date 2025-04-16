@@ -1,4 +1,4 @@
-package com.example.btl1;
+package com.example.btl1.models;
 
 import com.google.firebase.database.PropertyName;
 import java.io.Serializable;

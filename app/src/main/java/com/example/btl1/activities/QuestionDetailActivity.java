@@ -1,4 +1,4 @@
-package com.example.btl1;
+package com.example.btl1.activities;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.btl1.R;
+import com.example.btl1.models.Question;
 
 public class QuestionDetailActivity extends AppCompatActivity {
     private TextView tvQuestionContent, tvExplanation;
