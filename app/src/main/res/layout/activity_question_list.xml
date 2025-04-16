@@ -10,12 +10,4 @@
         android:id="@+id/recyclerViewQuestions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-    <!-- Nút nộp bài -->
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nộp bài"
-        android:layout_marginTop="10dp"/>
 </LinearLayout>
