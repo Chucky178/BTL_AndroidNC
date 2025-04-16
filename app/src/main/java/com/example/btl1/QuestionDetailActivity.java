@@ -3,6 +3,7 @@ package com.example.btl1;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class QuestionDetailActivity extends AppCompatActivity {
     private TextView tvQuestionContent, tvExplanation;
+    private ImageView imgQuestion;
     private RadioGroup rgOptions;
     private RadioButton rbOption1, rbOption2, rbOption3, rbOption4;
     private Button btnSubmit;
@@ -25,6 +27,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         // Ánh xạ các thành phần
         tvQuestionContent = findViewById(R.id.tvQuestionContent);
+        imgQuestion = findViewById(R.id.imgQuestion);
+
         rgOptions = findViewById(R.id.rgOptions);
         rbOption1 = findViewById(R.id.rbOption1);
         rbOption2 = findViewById(R.id.rbOption2);
@@ -34,8 +38,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
 
         // Nhận câu hỏi từ Intent
-        question = getIntent().getParcelableExtra("cau hoi");
-        if (question == null) {
+        question = (Question) getIntent().getSerializableExtra("cau hoi");        if (question == null) {
             Toast.makeText(this, "Lỗi: Không tìm thấy câu hỏi!", Toast.LENGTH_SHORT).show();
             finish();
             return;
@@ -44,6 +47,18 @@ public class QuestionDetailActivity extends AppCompatActivity {
         // Hiển thị nội dung câu hỏi
         tvQuestionContent.setText(question.getNoiDungCauHoi());
 
+        String imageName = question.getHinhAnh();
+        if (imageName != null && !imageName.isEmpty()) {
+            // Lấy ID tài nguyên ảnh từ tên ảnh
+            int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
+            if (imageResId != 0) {
+                imgQuestion.setImageResource(imageResId);  // Đặt ảnh vào ImageView
+            } else {
+                imgQuestion.setImageResource(android.R.drawable.ic_menu_help);  // Ảnh mặc định
+            }
+        } else {
+            imgQuestion.setVisibility(View.GONE);  // Ẩn ImageView nếu không có ảnh
+        }
         // Hiển thị các đáp án (nếu có)
         rbOption1.setText(question.getDapAn1());
         rbOption1.setVisibility(question.getDapAn1().isEmpty() ? View.GONE : View.VISIBLE);
@@ -76,6 +91,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
             if (selectedAnswer.equals(question.getDapAnDung())) {
                 Toast.makeText(this, "Chính xác!", Toast.LENGTH_SHORT).show();
+                tvExplanation.setText("Giải thích: " + question.getGiaiThichCauHoi());
+                tvExplanation.setVisibility(View.VISIBLE);
             } else {
                 Toast.makeText(this, "Sai! Đáp án đúng là: " + getCorrectAnswerText(), Toast.LENGTH_LONG).show();
                 tvExplanation.setText("Giải thích: " + question.getGiaiThichCauHoi());
