@@ -14,39 +14,55 @@ import com.example.btl1.models.Exam;
 import java.util.List;
 
 public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.DeThiViewHolder> {
-        private Context context;
-        private List<Exam> deThiList;
+    private Context context;
+    private List<Exam> deThiList;
+    private OnItemClickListener onItemClickListener; // Thêm listener
 
-        public ExamAdapter(Context context, List<Exam> deThiList) {
-            this.context = context;
-            this.deThiList = deThiList;
-        }
+    // Constructor
+    public ExamAdapter(Context context, List<Exam> deThiList, OnItemClickListener onItemClickListener) {
+        this.context = context;
+        this.deThiList = deThiList;
+        this.onItemClickListener = onItemClickListener;
+    }
 
-        @NonNull
-        @Override
-        public DeThiViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view;
-            view = LayoutInflater.from(context).inflate(R.layout.item_exam, parent, false);
-            return new DeThiViewHolder(view);
-        }
+    @NonNull
+    @Override
+    public DeThiViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_exam, parent, false);
+        return new DeThiViewHolder(view);
+    }
 
-        @Override
-        public void onBindViewHolder(@NonNull DeThiViewHolder holder, int position) {
-            Exam exam = deThiList.get(position);
-            holder.tvTenDe.setText(exam.getTen_de());
-        }
+    @Override
+    public void onBindViewHolder(@NonNull DeThiViewHolder holder, int position) {
+        Exam exam = deThiList.get(position);
+        holder.tvTenDe.setText(exam.getTen_de()); // Gán tên đề thi
 
-        @Override
-        public int getItemCount() {
-            return deThiList.size();
-        }
-
-        public static class DeThiViewHolder extends RecyclerView.ViewHolder {
-            TextView tvTenDe;
-
-            public DeThiViewHolder(@NonNull View itemView) {
-                super(itemView);
-                tvTenDe = itemView.findViewById(R.id.tvTenDe);
+        // Thiết lập sự kiện click cho mỗi item
+        holder.itemView.setOnClickListener(v -> {
+            // Gọi callback khi item được click
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(exam.getMa_de());
             }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return deThiList.size();
+    }
+
+    // ViewHolder cho mỗi item
+    public static class DeThiViewHolder extends RecyclerView.ViewHolder {
+        TextView tvTenDe;
+
+        public DeThiViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvTenDe = itemView.findViewById(R.id.tvTenDe); // Kết nối với TextView trong item_exam.xml
         }
+    }
+
+    // Interface callback khi click vào item
+    public interface OnItemClickListener {
+        void onItemClick(String maDe);
+    }
 }

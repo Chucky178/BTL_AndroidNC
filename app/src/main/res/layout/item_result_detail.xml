@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/questionIdText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Câu hỏi: " />
+
+    <TextView
+        android:id="@+id/selectedAnswerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đáp án chọn: " />
+
+    <TextView
+        android:id="@+id/correctAnswerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đáp án đúng: " />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Trạng thái: " />
+</LinearLayout>

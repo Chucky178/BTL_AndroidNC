@@ -1,6 +1,8 @@
 package com.example.btl1.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -22,39 +24,79 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class ExamActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private QuestionAdapter adapter;
+    private List<Exam> examList;
+    private ExamAdapter examAdapter;
     private List<Question> questionList;
-    private Button btnSubmit;
-    private int correctAnswers = 0;
+    private QuestionAdapter questionAdapter;  // Chú ý sửa kiểu dữ liệu
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
 
-        RecyclerView recyclerView = findViewById(R.id.rvDeThi);
+        recyclerView = findViewById(R.id.rvDeThi);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
-        List<Exam> examList = new ArrayList<>();
-        ExamAdapter adapter = new ExamAdapter(this, examList);
-        recyclerView.setAdapter(adapter);
+        examList = new ArrayList<>();
+        examAdapter = new ExamAdapter(this, examList, new ExamAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String maDe) {
+                // Khi nhấn vào đề thi, bạn truyền maDe vào intent
+                Intent intent = new Intent(ExamActivity.this, ExamDetailActivity.class);
+                intent.putExtra("ma_de", maDe); // Đảm bảo bạn truyền đúng kiểu dữ liệu
+                startActivity(intent);
+            }
+        });
 
+        recyclerView.setAdapter(examAdapter);
+
+        // Giả sử bạn đã có mã tải dữ liệu từ Firebase ở đây
+        loadExamData();
+    }
+
+//    private void loadExamData() {
+//        // Mã tải dữ liệu từ Firebase (ví dụ: FirebaseDatabase)
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("de_thi");
+//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot ds : snapshot.getChildren()) {
+//                    Exam exam = ds.getValue(Exam.class);
+//                    examList.add(exam);
+//                }
+//                examAdapter.notifyDataSetChanged();
+//                for (Exam exam : examList) {
+//                    Log.d("ExamActivity", "MaDe: " + exam.getMa_de());  // Log mã đề
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(ExamActivity.this, "Lỗi tải dữ liệu", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//
+
+    private void loadExamData() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("de_thi");
-
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Exam exam = ds.getValue(Exam.class);
-                    examList.add(exam);
+                    if (exam != null) {
+                        examList.add(exam);
+                        countQuestionsForExam(exam.getMa_de()); // Đếm số câu hỏi cho mã đề
+                    }
                 }
-                adapter.notifyDataSetChanged();
+                examAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -62,34 +104,27 @@ public class ExamActivity extends AppCompatActivity {
                 Toast.makeText(ExamActivity.this, "Lỗi tải dữ liệu", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
-    private void loadExamQuestions() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Questions").limit(25).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    questionList.add(document.toObject(Question.class));
-                }
-                adapter.notifyDataSetChanged();
-            }
-        });
+    private void countQuestionsForExam(String maDe) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("cau hoi");
+        ref.orderByChild("ma_de").equalTo(maDe)  // Lọc theo mã đề
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int questionCount = (int) snapshot.getChildrenCount();  // Đếm số câu hỏi trả về
+                        Log.d("ExamActivity", "Mã đề: " + maDe + " - Tổng số câu hỏi: " + questionCount);
+                        // Bạn có thể lưu số câu hỏi này vào exam hoặc làm gì đó với nó
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(ExamActivity.this, "Lỗi đếm câu hỏi", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-    private void checkAnswers() {
-//        correctAnswers = 0;
-//        for (int i = 0; i < questionList.size(); i++) {
-//            Question question = questionList.get(i);
-//            RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(i);
-//            if (viewHolder instanceof QuestionAdapter.ViewHolder) {
-//                QuestionAdapter.ViewHolder qHolder = (QuestionAdapter.ViewHolder) viewHolder;
-//                int selectedAnswer = qHolder.rgOptions.getCheckedRadioButtonId();
-//                if (selectedAnswer == question.getCorrectAnswer()) {
-//                    correctAnswers++;
-//                }
-//            }
-//        }
-        Toast.makeText(this, "Bạn trả lời đúng " + correctAnswers + "/" + questionList.size(), Toast.LENGTH_LONG).show();
-    }
+
+
+
 }

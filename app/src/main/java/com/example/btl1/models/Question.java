@@ -11,15 +11,14 @@ public class Question implements Serializable {
     private String dapAn1;
     private String dapAn2;
     private String dapAn3;
-    private String dapAn4; // Không thấy trong ví dụ nhưng nên giữ lại
+    private String dapAn4;
     private String dapAnDung;
     private String hinhAnh;
     private String giaiThichCauHoi;
+    private String isCauDiemLiet; // Thêm trường này để ánh xạ "is_cau_diem_liet"
 
     public Question() {
     }
-
-    // Getter và Setter có @PropertyName ánh xạ đúng Firebase
 
     @PropertyName("ma_cau_hoi")
     public String getMaCauHoi() {
@@ -91,7 +90,6 @@ public class Question implements Serializable {
         this.dapAn3 = dapAn3;
     }
 
-    // Nếu có dap_an_4, vẫn nên giữ
     @PropertyName("dap_an_4")
     public String getDapAn4() {
         return dapAn4;
@@ -130,5 +128,15 @@ public class Question implements Serializable {
     @PropertyName("giai_thich_cau_hoi")
     public void setGiaiThichCauHoi(String giaiThichCauHoi) {
         this.giaiThichCauHoi = giaiThichCauHoi;
+    }
+
+    @PropertyName("is_cau_diem_liet")
+    public String getIsCauDiemLiet() {
+        return isCauDiemLiet;
+    }
+
+    @PropertyName("is_cau_diem_liet")
+    public void setIsCauDiemLiet(String isCauDiemLiet) {
+        this.isCauDiemLiet = isCauDiemLiet;
     }
 }

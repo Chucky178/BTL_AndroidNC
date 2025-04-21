@@ -15,13 +15,16 @@
         android:theme="@style/Theme.BTL1"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ExamDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.TipsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.QuestionDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.ExamResultActivity"
+            android:name=".activities.ResultActivity"
             android:exported="false" /> <!-- Activity chính -->
         <activity
             android:name=".activities.MainActivity"
