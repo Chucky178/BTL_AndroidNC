@@ -57,11 +57,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        LinearLayout layoutTips = findViewById(R.id.layoutTips);
+        LinearLayout layoutTips = findViewById(R.id.layoutExam);
         ((android.view.View) layoutTips).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, TipsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        LinearLayout layoutExam = findViewById(R.id.layoutTips);
+        ((android.view.View) layoutTips).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ExamActivity.class);
                 startActivity(intent);
             }
         });

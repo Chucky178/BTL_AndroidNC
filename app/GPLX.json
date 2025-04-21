@@ -42,7 +42,57 @@
           "so_cau_hoi": 35,
           "hinh_anh": "ic_sahinh"
       }
-    ],
+      ],
+   "de_thi": [
+    {
+      "ma_de": "DE01",
+      "ten_de": "Đề 1",
+      "thoi_gian": 19,
+      "so_cau": 25
+    },
+    {
+      "ma_de": "DE02",
+      "ten_de": "Đề 2",
+      "thoi_gian": 19,
+      "so_cau": 25
+    },
+    {
+      "ma_de": "DE03",
+      "ten_de": "Đề 3",
+      "thoi_gian": 19,
+      "so_cau": 25
+    },
+    {
+      "ma_de": "DE04",
+      "ten_de": "Đề 4",
+      "thoi_gian": 19,
+      "so_cau": 25
+    },
+    {
+      "ma_de": "DE05",
+      "ten_de": "Đề 5",
+      "thoi_gian": 19,
+      "so_cau": 25
+    },
+    {
+      "ma_de": "DE06",
+      "ten_de": "Đề 6",
+      "thoi_gian": 19,
+      "so_cau": 25
+    },
+    {
+      "ma_de": "DE07",
+      "ten_de": "Đề 7",
+      "thoi_gian": 19,
+      "so_cau": 25
+    },
+    {
+      "ma_de": "DE08",
+      "ten_de": "Đề 8",
+      "thoi_gian": 19,
+      "so_cau": 25
+    }
+  ],
     "cau hoi":[
         {
         "ma_cau_hoi": "CH001",

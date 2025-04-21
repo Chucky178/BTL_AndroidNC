@@ -4,13 +4,22 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.btl1.adapters.ExamAdapter;
 import com.example.btl1.adapters.QuestionAdapter;
 import com.example.btl1.R;
+import com.example.btl1.models.Exam;
 import com.example.btl1.models.Question;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -29,16 +38,31 @@ public class ExamActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
 
-        recyclerView = findViewById(R.id.recyclerViewExam);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        questionList = new ArrayList<>();
-        adapter = new QuestionAdapter(this, questionList);
+        RecyclerView recyclerView = findViewById(R.id.rvDeThi);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+
+        List<Exam> examList = new ArrayList<>();
+        ExamAdapter adapter = new ExamAdapter(this, examList);
         recyclerView.setAdapter(adapter);
 
-        btnSubmit = findViewById(R.id.btnSubmit);
-        btnSubmit.setOnClickListener(v -> checkAnswers());
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("de_thi");
 
-        loadExamQuestions();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Exam exam = ds.getValue(Exam.class);
+                    examList.add(exam);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ExamActivity.this, "Lỗi tải dữ liệu", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void loadExamQuestions() {

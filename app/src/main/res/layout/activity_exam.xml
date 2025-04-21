@@ -7,15 +7,9 @@
 
     <!-- RecyclerView để hiển thị danh sách câu hỏi -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewExam"
+        android:id="@+id/rvDeThi"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <!-- Nút nộp bài -->
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nộp bài"
-        android:layout_marginTop="10dp"/>
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:clipToPadding="false"/>
 </LinearLayout>
