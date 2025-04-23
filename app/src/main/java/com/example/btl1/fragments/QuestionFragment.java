@@ -36,7 +36,6 @@ public class QuestionFragment extends Fragment {
         rbOption2 = view.findViewById(R.id.rbOption2);
         rbOption3 = view.findViewById(R.id.rbOption3);
         rbOption4 = view.findViewById(R.id.rbOption4);
-        tvExplanation = view.findViewById(R.id.tvExplanation);
         // Nhận câu hỏi từ Bundle
         question = (Question) getArguments().getSerializable("cau_hoi");
 
@@ -85,30 +84,25 @@ public class QuestionFragment extends Fragment {
                 rbOption4.setVisibility(View.GONE);
             }
         }
-        // Sau đoạn hiển thị câu hỏi và đáp án...
         rgOptions.setOnCheckedChangeListener((group, checkedId) -> {
-            RadioButton selectedRadioButton = group.findViewById(checkedId);
-            if (selectedRadioButton != null) {
-                userAnswer = selectedRadioButton.getText().toString();
-                android.util.Log.d("UserAnswer", "Câu hỏi: " + question.getMaCauHoi() + " - Đáp án chọn: " + userAnswer);
+            if (checkedId == R.id.rbOption1) {
+                userAnswer = "dap_an_1";
+            } else if (checkedId == R.id.rbOption2) {
+                userAnswer = "dap_an_2";
+            } else if (checkedId == R.id.rbOption3) {
+                userAnswer = "dap_an_3";
+            } else if (checkedId == R.id.rbOption4) {
+                userAnswer = "dap_an_4";
             }
+
+            android.util.Log.d("UserAnswer", "Câu hỏi: " + question.getMaCauHoi() + " - Đáp án chọn: " + userAnswer);
         });
+
 
         return view;
     }
-
-    // Phương thức để lấy đáp án của người dùng
     public String getUserAnswer() {
         return userAnswer;
     }
 
-    private String getCorrectAnswerText() {
-        switch (question.getDapAnDung()) {
-            case "dap_an_1": return question.getDapAn1();
-            case "dap_an_2": return question.getDapAn2();
-            case "dap_an_3": return question.getDapAn3();
-            case "dap_an_4": return question.getDapAn4();
-            default: return "";
-        }
-    }
 }

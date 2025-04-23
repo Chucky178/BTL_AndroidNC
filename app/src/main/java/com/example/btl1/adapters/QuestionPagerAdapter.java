@@ -1,7 +1,10 @@
 package com.example.btl1.adapters;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -15,41 +18,58 @@ import java.util.Map;
 
 public class QuestionPagerAdapter extends FragmentStateAdapter {
     private List<Question> questions;
-    private Map<Integer, String> userAnswers = new HashMap<>();
+    private Map<Integer, QuestionFragment> fragmentMap = new HashMap<>();
 
     public QuestionPagerAdapter(FragmentActivity fragmentActivity, List<Question> questions) {
         super(fragmentActivity);
         this.questions = questions;
     }
-    public void setUserAnswer(int position, String answer) {
-        userAnswers.put(position, answer);
-    }
+
+    //    public void setUserAnswer(int position, String answer) {
+//        fragmentMap.put(position, answer);
+//    }
     @Override
     public Fragment createFragment(int position) {
         QuestionFragment fragment = new QuestionFragment();
         Bundle args = new Bundle();
-        args.putSerializable("cau_hoi", questions.get(position));
+        args.putSerializable("cau_hoi", questions.get(position));  // Gửi câu hỏi vào Fragment
         fragment.setArguments(args);
+        // Lưu fragment vào fragmentMap sau khi tạo
+        fragmentMap.put(position, fragment);
+
         return fragment;
     }
+
+
 
     @Override
     public int getItemCount() {
         return questions.size();
     }
+//    public String getUserAnswer(int position) {
+//        QuestionFragment fragment = fragmentMap.get(position);
+//        if (fragment != null) {
+//            return fragment.getUserAnswer();  // lấy key dạng "dap_an_1"
+//        }
+//        return null;
+//    }
+public String getUserAnswer(int position) {
+    // Lấy fragment từ fragmentMap
+    QuestionFragment fragment = fragmentMap.get(position);
 
-    private String layNoiDungDapAn(Question question, String dapAn) {
-        switch (dapAn) {
-            case "dap_an_1": return question.getDapAn1();
-            case "dap_an_2": return question.getDapAn2();
-            case "dap_an_3": return question.getDapAn3();
-            case "dap_an_4": return question.getDapAn4();
-            default: return "";
-        }
-    }
-    public String getUserAnswer(int position) {
-        return userAnswers.get(position);
+    // Log để kiểm tra xem fragment có được tìm thấy không
+    Log.d("QuestionPagerAdapter", "Fragment for position " + position + ": " + fragment);
+
+    if (fragment != null) {
+        // Log để kiểm tra đáp án người dùng đã chọn
+        String userAnswer = fragment.getUserAnswer();
+        Log.d("QuestionPagerAdapter", "User answer for position " + position + ": " + userAnswer);
+        return userAnswer;
     }
 
+    // Log khi không tìm thấy fragment
+    Log.d("QuestionPagerAdapter", "No fragment found for position " + position);
+    return null;
+}
 
 }

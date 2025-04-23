@@ -99,27 +99,30 @@ public class ExamDetailActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        // Đảm bảo timeLeftInMillis được khởi tạo trước khi bắt đầu
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) { // 1000ms = 1s
             @Override
             public void onTick(long millisUntilFinished) {
-                timeLeftInMillis = millisUntilFinished;
-                updateTimerText();
+                timeLeftInMillis = millisUntilFinished;  // Cập nhật thời gian còn lại
+                updateTimerText();  // Cập nhật hiển thị đồng hồ
             }
 
             @Override
             public void onFinish() {
-                timerTextView.setText("Hết giờ!");
+                timerTextView.setText("Hết giờ!");  // Khi hết giờ
                 // TODO: Xử lý nộp bài tự động tại đây
             }
         }.start();
     }
 
     private void updateTimerText() {
-        int minutes = (int) (timeLeftInMillis / 1000) / 60;
-        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+        // Tính toán phút và giây từ timeLeftInMillis
+        int minutes = (int) (timeLeftInMillis / 1000) / 60;  // Lấy số phút
+        int seconds = (int) (timeLeftInMillis / 1000) % 60;  // Lấy số giây còn lại
 
+        // Định dạng lại thời gian để hiển thị dưới dạng mm:ss
         String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-        timerTextView.setText(timeFormatted);
+        timerTextView.setText(timeFormatted);  // Hiển thị lên UI
     }
 
     @Override
@@ -130,48 +133,79 @@ public class ExamDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void submitExam() {
-        resultDetail = new ArrayList<>();
-        score = 0;
+//    private void submitExam() {
+//        resultDetail = new ArrayList<>();
+//        score = 0;
+//
+//        for (int i = 0; i < questionList.size(); i++) {
+//            Question q = questionList.get(i);
+//            String dapAnChon = questionPagerAdapter.getUserAnswer(i); // Lấy đáp án người dùng
+//            String dapAnDung = q.getDapAnDung();
+//
+//            // Chuyển mã đáp án đúng (ví dụ: "dap_an_2") thành nội dung thực tế
+//            String noiDungDapAnDung = layNoiDungDapAn(q, dapAnDung);
+//
+//            if (dapAnChon != null && dapAnChon.equals(noiDungDapAnDung)) {
+//                score++;
+//            }
+//
+//            ResultDetail rd = new ResultDetail();
+//            rd.setMa_cau_hoi(q.getMaCauHoi());
+//            rd.setDap_an_chon(dapAnChon);
+//            rd.setDap_an_dung(noiDungDapAnDung);
+//            if (dapAnChon == null) {
+//                rd.setTrang_thai("chua tra loi");
+//            } else if (dapAnChon.equals(dapAnDung)) {
+//                rd.setTrang_thai("dung");
+//                score++;
+//            } else {
+//                rd.setTrang_thai("sai");
+//            }
+//
+//            resultDetail.add(rd);
+//        }
+//
+//        countDownTimer.cancel();
+//         score = tinhDiem();
+//        luuKetQuaVaoFirebase();
+////        Intent intent = new Intent(ExamDetailActivity.this, ResultActivity.class);
+////        intent.putExtra("score", score);
+////        intent.putExtra("totalQuestions", questionList.size());
+////        intent.putExtra("maKetQua", "kq001"); // Gửi ma_ket_qua để ResultActivity truy vấn chi tiết
+////        startActivity(intent);
+////        finish();
+//    }
+private void submitExam() {
+    resultDetail = new ArrayList<>();
+    score = 0;
 
-        for (int i = 0; i < questionList.size(); i++) {
-            Question q = questionList.get(i);
-            String dapAnChon = questionPagerAdapter.getUserAnswer(i); // Lấy đáp án người dùng
-            String dapAnDung = q.getDapAnDung();
+    for (int i = 0; i < questionList.size(); i++) {
+        Question q = questionList.get(i);
+        String dapAnChon = questionPagerAdapter.getUserAnswer(i); // ví dụ: "dap_an_2"
+        String dapAnDung = q.getDapAnDung(); // ví dụ: "dap_an_2"
+        Log.d("ExamDetailActivity", "Câu hỏi: " + q.getMaCauHoi());
+        Log.d("ExamDetailActivity", "Đáp án chọn: " + dapAnChon);
+        Log.d("ExamDetailActivity", "Đáp án đúng: " + dapAnDung);
+        ResultDetail rd = new ResultDetail();
+        rd.setMa_cau_hoi(q.getMaCauHoi());
+        rd.setDap_an_chon(dapAnChon);
+        rd.setDap_an_dung(dapAnDung);
 
-            // Chuyển mã đáp án đúng (ví dụ: "dap_an_2") thành nội dung thực tế
-            String noiDungDapAnDung = layNoiDungDapAn(q, dapAnDung);
-
-            if (dapAnChon != null && dapAnChon.equals(noiDungDapAnDung)) {
-                score++;
-            }
-
-            ResultDetail rd = new ResultDetail();
-            rd.setMa_cau_hoi(q.getMaCauHoi());
-            rd.setDap_an_chon(dapAnChon);
-            rd.setDap_an_dung(noiDungDapAnDung);
-            if (dapAnChon == null) {
-                rd.setTrang_thai("chua tra loi");
-            } else if (dapAnChon.equals(dapAnDung)) {
-                rd.setTrang_thai("dung");
-                score++;
-            } else {
-                rd.setTrang_thai("sai");
-            }
-
-            resultDetail.add(rd);
+        if (dapAnChon == null) {
+            rd.setTrang_thai("chua tra loi");
+        } else if (dapAnChon.equals(dapAnDung)) {
+            rd.setTrang_thai("dung");
+            score++;
+        } else {
+            rd.setTrang_thai("sai");
         }
 
-        countDownTimer.cancel();
-         score = tinhDiem();
-        luuKetQuaVaoFirebase();
-        Intent intent = new Intent(ExamDetailActivity.this, ResultActivity.class);
-        intent.putExtra("score", score);
-        intent.putExtra("totalQuestions", questionList.size());
-        intent.putExtra("maKetQua", "kq001"); // Gửi ma_ket_qua để ResultActivity truy vấn chi tiết
-        startActivity(intent);
-        finish();
+        resultDetail.add(rd);
+
     }
+    countDownTimer.cancel();
+    luuKetQuaVaoFirebase();
+}
 
     private int tinhDiem() {
         int diem = 0;
@@ -196,6 +230,7 @@ public class ExamDetailActivity extends AppCompatActivity {
         String maKetQua = "KQ_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
 
         // ✅ Tính thời gian làm bài (giả sử bạn có biến countDownTimeLeftMillis)
+        // Tính thời gian đã trôi qua (theo giây)
         int thoiGianHoanThanhGiay = (int) ((19 * 60 * 1000 - timeLeftInMillis) / 1000); // Chuyển sang giây
 
         // ✅ Tạo đối tượng Result
@@ -224,8 +259,9 @@ public class ExamDetailActivity extends AppCompatActivity {
 
             if (dapAnChon == null) {
                 resultDetail.setTrang_thai("chua tra loi");
-            } else if (dapAnChon.equals(noiDungDapAnDung)) {
-                resultDetail.setTrang_thai("duong");
+            } else if (dapAnChon.equals(dapAnDung)) { // So sánh mã đáp án đúng
+                resultDetail.setTrang_thai("dung");
+                score++; // Cộng điểm nếu đúng
             } else {
                 resultDetail.setTrang_thai("sai");
             }
@@ -239,6 +275,8 @@ public class ExamDetailActivity extends AppCompatActivity {
         reference.child(maKetQua).setValue(result)
                 .addOnSuccessListener(unused -> {
                     Toast.makeText(ExamDetailActivity.this, "Đã lưu kết quả bài thi!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ExamDetailActivity.this, ExamActivity.class);
+                    startActivity(intent);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(ExamDetailActivity.this, "Lỗi khi lưu kết quả: " + e.getMessage(), Toast.LENGTH_LONG).show();
