@@ -17,13 +17,14 @@ import com.example.btl1.R;
 import com.example.btl1.models.Question;
 
 public class QuestionFragment extends Fragment {
+
     private TextView tvQuestionContent, tvExplanation;
     private ImageView imgQuestion;
     private RadioGroup rgOptions;
     private RadioButton rbOption1, rbOption2, rbOption3, rbOption4;
-    private Button btnSubmit;
-    private Question question;
 
+    private Question question;
+    private String userAnswer;  // Lưu đáp án của người dùng
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,11 +37,10 @@ public class QuestionFragment extends Fragment {
         rbOption3 = view.findViewById(R.id.rbOption3);
         rbOption4 = view.findViewById(R.id.rbOption4);
         tvExplanation = view.findViewById(R.id.tvExplanation);
-        btnSubmit = view.findViewById(R.id.btnSubmit);
-
         // Nhận câu hỏi từ Bundle
         question = (Question) getArguments().getSerializable("cau_hoi");
 
+        // Hiển thị câu hỏi và đáp án
         if (question != null) {
             tvQuestionContent.setText(question.getNoiDungCauHoi());
 
@@ -84,36 +84,23 @@ public class QuestionFragment extends Fragment {
             } else {
                 rbOption4.setVisibility(View.GONE);
             }
-
-            btnSubmit.setOnClickListener(v -> {
-                int selectedId = rgOptions.getCheckedRadioButtonId();
-                if (selectedId == -1) {
-                    Toast.makeText(getActivity(), "Vui lòng chọn một đáp án!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                RadioButton selectedRadioButton = view.findViewById(selectedId);
-                String selectedAnswer = "";
-                if (selectedRadioButton == rbOption1) selectedAnswer = "dap_an_1";
-                if (selectedRadioButton == rbOption2) selectedAnswer = "dap_an_2";
-                if (selectedRadioButton == rbOption3) selectedAnswer = "dap_an_3";
-                if (selectedRadioButton == rbOption4) selectedAnswer = "dap_an_4";
-
-                if (selectedAnswer.equals(question.getDapAnDung())) {
-                    Toast.makeText(getActivity(), "Chính xác!", Toast.LENGTH_SHORT).show();
-                    tvExplanation.setText("Giải thích: " + question.getGiaiThichCauHoi());
-                    tvExplanation.setVisibility(View.VISIBLE);
-                } else {
-                    Toast.makeText(getActivity(), "Sai! Đáp án đúng là: " + getCorrectAnswerText(), Toast.LENGTH_LONG).show();
-                    tvExplanation.setText("Giải thích: " + question.getGiaiThichCauHoi());
-                    tvExplanation.setVisibility(View.VISIBLE);
-                }
-            });
         }
+        // Sau đoạn hiển thị câu hỏi và đáp án...
+        rgOptions.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton selectedRadioButton = group.findViewById(checkedId);
+            if (selectedRadioButton != null) {
+                userAnswer = selectedRadioButton.getText().toString();
+                android.util.Log.d("UserAnswer", "Câu hỏi: " + question.getMaCauHoi() + " - Đáp án chọn: " + userAnswer);
+            }
+        });
 
         return view;
     }
 
+    // Phương thức để lấy đáp án của người dùng
+    public String getUserAnswer() {
+        return userAnswer;
+    }
 
     private String getCorrectAnswerText() {
         switch (question.getDapAnDung()) {
