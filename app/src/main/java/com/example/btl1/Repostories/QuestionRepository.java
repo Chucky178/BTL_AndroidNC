@@ -57,6 +57,66 @@ public class QuestionRepository {
                 });
     }
 
+    // Phương thức lấy tất cả câu hỏi
+    public static void getAllQuestions(final DataCallback<List<Question>> callback) {
+        DatabaseReference reference = database.getReference("cau hoi");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Question> questionList = new ArrayList<>();
+
+                Log.d("Firebase", "Tất cả dữ liệu câu hỏi: " + dataSnapshot.toString());
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Question question = snapshot.getValue(Question.class);
+                    if (question != null) {
+                        questionList.add(question);
+                    }
+                }
+
+                Log.d("Firebase", "Tổng số câu hỏi: " + questionList.size());
+
+                callback.onDataLoaded(questionList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onDataError(databaseError.toException());
+            }
+        });
+    }
+    // Phương thức lấy câu hỏi điểm liệt
+    public static void getDiemLietQuestions(final DataCallback<List<Question>> callback) {
+        DatabaseReference reference = database.getReference("cau hoi");
+
+        reference.orderByChild("is_cau_diem_liet").equalTo("1")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        List<Question> questionList = new ArrayList<>();
+
+                        Log.d("Firebase", "Dữ liệu điểm liệt nhận được: " + dataSnapshot.toString());
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Question question = snapshot.getValue(Question.class);
+                            if (question != null) {
+                                questionList.add(question);
+                            }
+                        }
+
+                        Log.d("Firebase", "Số câu điểm liệt tìm được: " + questionList.size());
+
+                        callback.onDataLoaded(questionList);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        callback.onDataError(databaseError.toException());
+                    }
+                });
+    }
+
     // Interface callback để nhận dữ liệu trả về
     public interface DataCallback<T> {
         void onDataLoaded(T data);

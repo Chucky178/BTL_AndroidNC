@@ -71,6 +71,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        LinearLayout layoutDecree = findViewById(R.id.layoutDecree);
+        ((android.view.View) layoutDecree).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Decree168Activity.class );
+                startActivity(intent);
+            }
+        });
     }
 
     // Kiểm tra kết nối Firebase
