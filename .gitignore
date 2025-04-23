@@ -1,20 +1,56 @@
+# Android Studio
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+.idea/
+.gradle/
 local.properties
-.idea/gradle.xml
-.idea/gradle.xml
-.idea/misc.xml
-.idea/vcs.xml
-.idea/gradle.xml
+
+# Gradle
+**/build/
+.cxx/
+.externalNativeBuild/
+*.log
+*.bin
+*.lock
+
+# Others
+.DS_Store
+Thumbs.db
+
+# Generated files
+*.class
+*.jar
+*.apk
+*.ap_
+
+# Captures
+captures/
+
+# Mac swap files
+*.swp
+*.swo
+
+# NDK
+obj/
+
+# VS Code
+.vscode/
+
+# JetBrains Rider
+.idea/
+
+# Test Results
+test-results/
+
+# Gradle Wrapper
+gradlew
+gradlew.bat
+
+# Gradle wrapper directory
+wrapper/
+
+# Environment files
+.env
+
+# Test result directories
+build/test-results/
+outputs/test-results/
