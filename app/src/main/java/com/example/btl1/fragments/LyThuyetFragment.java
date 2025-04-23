@@ -25,7 +25,6 @@ public class LyThuyetFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ly_thuyet, container, false);
         TextView textView = view.findViewById(R.id.textLyThuyet);
-        textView.setText("Nội dung phần Lý thuyết bạn muốn hiển thị ở đây...");
         String fullText =
                         "Mẹo thi lý thuyết bằng lái xe A1" +
                         "\n" +
