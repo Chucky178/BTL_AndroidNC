@@ -16,6 +16,7 @@
         android:background="@color/purple_700"
         android:elevation="4dp"
         app:tabIndicatorColor="@color/white"
+        app:tabTextColor="@color/white"
         app:tabSelectedTextColor="@android:color/white" />
 
     <!-- ViewPager2 nằm dưới TabLayout -->
