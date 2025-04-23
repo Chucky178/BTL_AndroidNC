@@ -230,16 +230,18 @@ private void submitExam() {
         String maKetQua = "KQ_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
 
         // ✅ Tính thời gian làm bài (giả sử bạn có biến countDownTimeLeftMillis)
-        // Tính thời gian đã trôi qua (theo giây)
-        int thoiGianHoanThanhGiay = (int) ((19 * 60 * 1000 - timeLeftInMillis) / 1000); // Chuyển sang giây
-
+        // Tính thời gian đã trôi qua (mm:ss)
+        long thoiGianHoanThanhMillis = 19 * 60 * 1000 - timeLeftInMillis;
+        int minutes = (int) (thoiGianHoanThanhMillis / 1000) / 60;
+        int seconds = (int) (thoiGianHoanThanhMillis / 1000) % 60;
+        String thoiGianHoanThanh = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         // ✅ Tạo đối tượng Result
         Result result = new Result();
         result.setMa_ket_qua(maKetQua);
         result.setMa_de(maDe); // biến này nên được truyền khi bắt đầu bài thi
         result.setDiem_so(score);
         result.setTong_so_cau(questionList.size());
-        result.setThoi_gian_hoan_thanh(thoiGianHoanThanhGiay);
+        result.setThoi_gian_hoan_thanh(thoiGianHoanThanh);
         result.setNgay_lam(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(new Date()));
         result.setTrang_thai(score >= 25 ? "đạt" : "không đạt");
 

@@ -9,7 +9,7 @@ public class Result implements Serializable {
     private String trang_thai;
     private int diem_so;
     private int tong_so_cau;
-    private int thoi_gian_hoan_thanh;
+    private String thoi_gian_hoan_thanh;
     private String ngay_lam;
     private Map<String, ResultDetail> chi_tiet_cau_hoi;  // Lưu chi tiết của từng câu hỏi
 
@@ -27,8 +27,13 @@ public class Result implements Serializable {
     public void setDiem_so(int diem_so) { this.diem_so = diem_so; }
     public int getTong_so_cau() { return tong_so_cau; }
     public void setTong_so_cau(int tong_so_cau) { this.tong_so_cau = tong_so_cau; }
-    public int getThoi_gian_hoan_thanh() { return thoi_gian_hoan_thanh; }
-    public void setThoi_gian_hoan_thanh(int thoi_gian_hoan_thanh) { this.thoi_gian_hoan_thanh = thoi_gian_hoan_thanh; }
+    public String getThoi_gian_hoan_thanh() {
+        return thoi_gian_hoan_thanh;
+    }
+
+    public void setThoi_gian_hoan_thanh(String thoi_gian_hoan_thanh) {
+        this.thoi_gian_hoan_thanh = thoi_gian_hoan_thanh;
+    }
     public String getNgay_lam() { return ngay_lam; }
     public void setNgay_lam(String ngay_lam) { this.ngay_lam = ngay_lam; }
 
