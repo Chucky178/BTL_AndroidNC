@@ -132,49 +132,6 @@ public class ExamDetailActivity extends AppCompatActivity {
             countDownTimer.cancel();
         }
     }
-
-//    private void submitExam() {
-//        resultDetail = new ArrayList<>();
-//        score = 0;
-//
-//        for (int i = 0; i < questionList.size(); i++) {
-//            Question q = questionList.get(i);
-//            String dapAnChon = questionPagerAdapter.getUserAnswer(i); // Lấy đáp án người dùng
-//            String dapAnDung = q.getDapAnDung();
-//
-//            // Chuyển mã đáp án đúng (ví dụ: "dap_an_2") thành nội dung thực tế
-//            String noiDungDapAnDung = layNoiDungDapAn(q, dapAnDung);
-//
-//            if (dapAnChon != null && dapAnChon.equals(noiDungDapAnDung)) {
-//                score++;
-//            }
-//
-//            ResultDetail rd = new ResultDetail();
-//            rd.setMa_cau_hoi(q.getMaCauHoi());
-//            rd.setDap_an_chon(dapAnChon);
-//            rd.setDap_an_dung(noiDungDapAnDung);
-//            if (dapAnChon == null) {
-//                rd.setTrang_thai("chua tra loi");
-//            } else if (dapAnChon.equals(dapAnDung)) {
-//                rd.setTrang_thai("dung");
-//                score++;
-//            } else {
-//                rd.setTrang_thai("sai");
-//            }
-//
-//            resultDetail.add(rd);
-//        }
-//
-//        countDownTimer.cancel();
-//         score = tinhDiem();
-//        luuKetQuaVaoFirebase();
-////        Intent intent = new Intent(ExamDetailActivity.this, ResultActivity.class);
-////        intent.putExtra("score", score);
-////        intent.putExtra("totalQuestions", questionList.size());
-////        intent.putExtra("maKetQua", "kq001"); // Gửi ma_ket_qua để ResultActivity truy vấn chi tiết
-////        startActivity(intent);
-////        finish();
-//    }
 private void submitExam() {
     resultDetail = new ArrayList<>();
     score = 0;
@@ -205,22 +162,13 @@ private void submitExam() {
     }
     countDownTimer.cancel();
     luuKetQuaVaoFirebase();
+    ////        Intent intent = new Intent(ExamDetailActivity.this, ResultActivity.class);
+    ////        intent.putExtra("score", score);
+    ////        intent.putExtra("totalQuestions", questionList.size());
+    ////        intent.putExtra("maKetQua", "kq001"); // Gửi ma_ket_qua để ResultActivity truy vấn chi tiết
+    ////        startActivity(intent);
+    ////        finish();
 }
-
-    private int tinhDiem() {
-        int diem = 0;
-        for (int i = 0; i < questionList.size(); i++) {
-            Question q = questionList.get(i);
-            String dapAnChon = questionPagerAdapter.getUserAnswer(i);
-            String dapAnDung = layNoiDungDapAn(q, q.getDapAnDung());
-
-            if (dapAnChon != null && dapAnChon.equals(dapAnDung)) {
-                diem++;
-            }
-        }
-        return diem;
-    }
-
 
     private void luuKetQuaVaoFirebase() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -249,13 +197,10 @@ private void submitExam() {
             Question q = questionList.get(i);
             String dapAnChon = questionPagerAdapter.getUserAnswer(i);
             String dapAnDung = q.getDapAnDung();
-            String noiDungDapAnDung = layNoiDungDapAn(q, dapAnDung);
-
             ResultDetail resultDetail = new ResultDetail();
-            resultDetail.setMa_ket_qua(maKetQua);
             resultDetail.setMa_cau_hoi(q.getMaCauHoi());
             resultDetail.setDap_an_chon(dapAnChon);
-            resultDetail.setDap_an_dung(noiDungDapAnDung);
+            resultDetail.setDap_an_dung(dapAnDung);
 
             if (dapAnChon == null) {
                 resultDetail.setTrang_thai("chua tra loi");

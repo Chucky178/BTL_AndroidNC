@@ -1,6 +1,7 @@
 package com.example.btl1.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btl1.R;
+import com.example.btl1.activities.QuestionListActivity;
 import com.example.btl1.models.Topic;
 
 import java.util.List;
@@ -75,11 +77,34 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
         }
 
         // Sử dụng interface thay vì xử lý trực tiếp
-        holder.itemView.setOnClickListener(v -> {
-            if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(topic);
+//        holder.itemView.setOnClickListener(v -> {
+//            if (onItemClickListener != null) {
+//                onItemClickListener.onItemClick(topic);
+//            }
+//        });
+        holder.itemView.setOnClickListener(view -> {
+            Topic selectedTopic = topics.get(position); // ✅ Lấy đúng kiểu
+            String maNhom = selectedTopic.getMa_nhom_cau_hoi(); // ✅ Lấy mã nhóm
+
+            Intent intent = new Intent(context, QuestionListActivity.class);
+
+            switch (maNhom) {
+                case "NCH00":  // TẤT CẢ CÂU HỎI
+                    intent.putExtra("hien_tat_ca", true);
+                    break;
+
+                case "NCH01":  // CÂU HỎI ĐIỂM LIỆT
+                    intent.putExtra("hien_diem_liet", true);
+                    break;
+
+                default: // Các nhóm còn lại
+                    intent.putExtra("ma_nhom_cau_hoi", maNhom);
+                    break;
             }
+
+            context.startActivity(intent);
         });
+
     }
 
     @Override
