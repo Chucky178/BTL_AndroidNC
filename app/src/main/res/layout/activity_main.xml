@@ -113,7 +113,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cá nhân"
+                android:text="Lịch sử"
                 android:textSize="12sp" />
         </LinearLayout>
 

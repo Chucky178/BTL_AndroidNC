@@ -1,6 +1,9 @@
 package com.example.btl1.models;
 
-public class Result {
+import java.io.Serializable;
+import java.util.Map;
+
+public class Result implements Serializable {
     private String ma_ket_qua;
     private String ma_de;
     private String trang_thai;
@@ -8,6 +11,8 @@ public class Result {
     private int tong_so_cau;
     private int thoi_gian_hoan_thanh;
     private String ngay_lam;
+    private Map<String, ResultDetail> chi_tiet_cau_hoi;  // Lưu chi tiết của từng câu hỏi
+
 
     public Result() {}
 
@@ -26,5 +31,13 @@ public class Result {
     public void setThoi_gian_hoan_thanh(int thoi_gian_hoan_thanh) { this.thoi_gian_hoan_thanh = thoi_gian_hoan_thanh; }
     public String getNgay_lam() { return ngay_lam; }
     public void setNgay_lam(String ngay_lam) { this.ngay_lam = ngay_lam; }
+
+    public Map<String, ResultDetail> getChi_tiet_cau_hoi() {
+        return chi_tiet_cau_hoi;
+    }
+
+    public void setChi_tiet_cau_hoi(Map<String, ResultDetail> chi_tiet_cau_hoi) {
+        this.chi_tiet_cau_hoi = chi_tiet_cau_hoi;
+    }
    }
 

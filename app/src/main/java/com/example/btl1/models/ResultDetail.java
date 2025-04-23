@@ -1,5 +1,8 @@
 package com.example.btl1.models;
-public class ResultDetail {
+
+import java.io.Serializable;
+
+public class ResultDetail implements Serializable {
     private String ma_ket_qua;
     private String ma_cau_hoi;
     private String dap_an_chon;
