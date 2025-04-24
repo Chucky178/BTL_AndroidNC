@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("Firebase", "Kết nối Firebase thành công!");
                 } else {
                     Log.w("Firebase", "Không kết nối được Firebase!");
-                    Toast.makeText(MainActivity.this, "Không có kết nối mạng!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "Không có kết nối mạng!", Toast.LENGTH_SHORT).show();
                 }
             }
 
