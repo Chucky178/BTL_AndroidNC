@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.annotationProcessor
+
 plugins {
     id("com.google.gms.google-services")
     alias(libs.plugins.android.application)
@@ -33,6 +35,12 @@ android {
 }
 
 dependencies {
+
+    val room_version = "2.5.2"
+    implementation ("androidx.room:room-runtime:$room_version")
+    annotationProcessor ("androidx.room:room-compiler:$room_version")
+
+
     implementation("com.google.android.material:material:1.9.0")
     implementation("com.google.firebase:firebase-firestore")
     implementation ("com.google.firebase:firebase-database:20.2.1")

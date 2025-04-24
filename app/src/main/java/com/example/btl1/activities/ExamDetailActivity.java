@@ -14,7 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.btl1.R;
+import com.example.btl1.Repostories.ResultRepository;
 import com.example.btl1.adapters.QuestionPagerAdapter;
+import com.example.btl1.database.entity.ResultEntity;
 import com.example.btl1.models.Question;
 import com.example.btl1.models.Result;
 import com.example.btl1.models.ResultDetail;
@@ -132,100 +134,117 @@ public class ExamDetailActivity extends AppCompatActivity {
             countDownTimer.cancel();
         }
     }
-private void submitExam() {
-    resultDetail = new ArrayList<>();
-    score = 0;
+    private void submitExam() {
+        resultDetail = new ArrayList<>();
+        score = 0; // Đặt lại điểm số về 0
 
-    for (int i = 0; i < questionList.size(); i++) {
-        Question q = questionList.get(i);
-        String dapAnChon = questionPagerAdapter.getUserAnswer(i); // ví dụ: "dap_an_2"
-        String dapAnDung = q.getDapAnDung(); // ví dụ: "dap_an_2"
-        Log.d("ExamDetailActivity", "Câu hỏi: " + q.getMaCauHoi());
-        Log.d("ExamDetailActivity", "Đáp án chọn: " + dapAnChon);
-        Log.d("ExamDetailActivity", "Đáp án đúng: " + dapAnDung);
-        ResultDetail rd = new ResultDetail();
-        rd.setMa_cau_hoi(q.getMaCauHoi());
-        rd.setDap_an_chon(dapAnChon);
-        rd.setDap_an_dung(dapAnDung);
+        // Tính điểm và tạo chi tiết kết quả
+        for (int i = 0; i < questionList.size(); i++) {
+            Question q = questionList.get(i);
+            String dapAnChon = questionPagerAdapter.getUserAnswer(i);
+            String dapAnDung = q.getDapAnDung();
 
-        if (dapAnChon == null) {
-            rd.setTrang_thai("chua tra loi");
-        } else if (dapAnChon.equals(dapAnDung)) {
-            rd.setTrang_thai("dung");
-            score++;
-        } else {
-            rd.setTrang_thai("sai");
+            ResultDetail rd = new ResultDetail();
+            rd.setMa_cau_hoi(q.getMaCauHoi());
+            rd.setDap_an_chon(dapAnChon);
+            rd.setDap_an_dung(dapAnDung);
+
+            if (dapAnChon == null) {
+                rd.setTrang_thai("chua tra loi");
+            } else if (dapAnChon.equals(dapAnDung)) {
+                rd.setTrang_thai("dung");
+                score++; // Tăng điểm chỉ một lần ở đây
+            } else {
+                rd.setTrang_thai("sai");
+            }
+
+            resultDetail.add(rd);
         }
 
-        resultDetail.add(rd);
-
+        countDownTimer.cancel();
+        luuKetQuaThi();
     }
-    countDownTimer.cancel();
-    luuKetQuaVaoFirebase();
-    ////        Intent intent = new Intent(ExamDetailActivity.this, ResultActivity.class);
-    ////        intent.putExtra("score", score);
-    ////        intent.putExtra("totalQuestions", questionList.size());
-    ////        intent.putExtra("maKetQua", "kq001"); // Gửi ma_ket_qua để ResultActivity truy vấn chi tiết
-    ////        startActivity(intent);
-    ////        finish();
-}
 
-    private void luuKetQuaVaoFirebase() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("ket_qua_thi");
+    private void saveResultToRoomDatabase(Result result, String examName) {
+        // Create a ResultEntity from the Result object
+        ResultEntity resultEntity = new ResultEntity(
+                result.getMa_ket_qua(),
+                result.getMa_de(),
+                examName,
+                result.getDiem_so(),
+                result.getTong_so_cau(),
+                System.currentTimeMillis(),
+                result.getThoi_gian_hoan_thanh(),
+                result.getTrang_thai()
+        );
 
-        // ✅ Tạo mã kết quả dựa trên thời gian hiện tại
+        // Create repository and save result
+        ResultRepository repository = new ResultRepository(getApplication());
+        repository.insert(resultEntity);
+    }
+
+    private void luuKetQuaThi() {
+        // Create result ID
         String maKetQua = "KQ_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
 
-        // ✅ Tính thời gian làm bài (giả sử bạn có biến countDownTimeLeftMillis)
-        // Tính thời gian đã trôi qua (theo giây)
-        int thoiGianHoanThanhGiay = (int) ((19 * 60 * 1000 - timeLeftInMillis) / 1000); // Chuyển sang giây
+        // Calculate completion time in seconds
+        int thoiGianHoanThanhGiay = (int) ((19 * 60 * 1000 - timeLeftInMillis) / 1000);
 
-        // ✅ Tạo đối tượng Result
+        // Create Result object
         Result result = new Result();
         result.setMa_ket_qua(maKetQua);
-        result.setMa_de(maDe); // biến này nên được truyền khi bắt đầu bài thi
+        result.setMa_de(maDe);
         result.setDiem_so(score);
         result.setTong_so_cau(questionList.size());
         result.setThoi_gian_hoan_thanh(thoiGianHoanThanhGiay);
         result.setNgay_lam(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(new Date()));
         result.setTrang_thai(score >= 25 ? "đạt" : "không đạt");
 
-        // ✅ Lưu chi tiết câu hỏi
+        // Set result details
         Map<String, ResultDetail> chiTietCauHoi = new HashMap<>();
-        for (int i = 0; i < questionList.size(); i++) {
-            Question q = questionList.get(i);
-            String dapAnChon = questionPagerAdapter.getUserAnswer(i);
-            String dapAnDung = q.getDapAnDung();
-            ResultDetail resultDetail = new ResultDetail();
-            resultDetail.setMa_cau_hoi(q.getMaCauHoi());
-            resultDetail.setDap_an_chon(dapAnChon);
-            resultDetail.setDap_an_dung(dapAnDung);
-
-            if (dapAnChon == null) {
-                resultDetail.setTrang_thai("chua tra loi");
-            } else if (dapAnChon.equals(dapAnDung)) { // So sánh mã đáp án đúng
-                resultDetail.setTrang_thai("dung");
-                score++; // Cộng điểm nếu đúng
-            } else {
-                resultDetail.setTrang_thai("sai");
-            }
-
-            chiTietCauHoi.put(q.getMaCauHoi(), resultDetail);
+        for (ResultDetail detail : resultDetail) {
+            chiTietCauHoi.put(detail.getMa_cau_hoi(), detail);
         }
-
         result.setChi_tiet_cau_hoi(chiTietCauHoi);
 
-        // ✅ Lưu vào Firebase
-        reference.child(maKetQua).setValue(result)
-                .addOnSuccessListener(unused -> {
-                    Toast.makeText(ExamDetailActivity.this, "Đã lưu kết quả bài thi!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(ExamDetailActivity.this, ExamActivity.class);
-                    startActivity(intent);
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(ExamDetailActivity.this, "Lỗi khi lưu kết quả: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                });
+        // Get exam name to save to Room database
+        DatabaseReference examRef = FirebaseDatabase.getInstance().getReference("de_thi").child(maDe);
+        examRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String examName = "Bài thi";
+                if (snapshot.exists() && snapshot.child("ten_de").exists()) {
+                    examName = snapshot.child("ten_de").getValue(String.class);
+                }
+
+                // Save to Room database only
+                saveResultToRoomDatabase(result, examName);
+
+                Toast.makeText(ExamDetailActivity.this, "Đã lưu kết quả bài thi vào cơ sở dữ liệu local!", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(ExamDetailActivity.this, ResultActivity.class);
+                intent.putExtra("ma_ket_qua", maKetQua);
+                intent.putExtra("score", score);
+                intent.putExtra("totalQuestions", questionList.size());
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // If we can't get the exam name, save with default name
+                saveResultToRoomDatabase(result, "Bài thi");
+
+                Toast.makeText(ExamDetailActivity.this, "Đã lưu kết quả bài thi vào cơ sở dữ liệu local!", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(ExamDetailActivity.this, ResultActivity.class);
+                intent.putExtra("ma_ket_qua", maKetQua);
+                intent.putExtra("score", score);
+                intent.putExtra("totalQuestions", questionList.size());
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
 
