@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import com.example.btl1.database.AppDatabase;
 import com.example.btl1.database.dao.ResultDao;
 import com.example.btl1.database.entity.ResultEntity;
+import com.example.btl1.models.Result;
 
 import java.util.List;
 
@@ -16,22 +17,18 @@ public class ResultRepository {
     private LiveData<List<ResultEntity>> allResults;
 
     public ResultRepository(Application application) {
-        AppDatabase database = AppDatabase.getInstance(application);
-        resultDao = database.resultDao();
-        allResults = resultDao.getAllResults();
+        AppDatabase db = AppDatabase.getInstance(application);
+        resultDao = db.resultDao();
     }
 
     public void insert(ResultEntity result) {
         new InsertResultAsyncTask(resultDao).execute(result);
     }
 
-    public LiveData<List<ResultEntity>> getAllResults() {
-        return allResults;
+    public List<ResultEntity> getAllResults() {
+        return resultDao.getAllResults(); // Fetch as List
     }
 
-    public LiveData<ResultEntity> getResultById(String resultId) {
-        return resultDao.getResultById(resultId);
-    }
 
     private static class InsertResultAsyncTask extends AsyncTask<ResultEntity, Void, Void> {
         private ResultDao resultDao;

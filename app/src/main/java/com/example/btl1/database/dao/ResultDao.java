@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.btl1.database.entity.ResultEntity;
+import com.example.btl1.models.Result;
 
 import java.util.List;
 
@@ -15,11 +16,9 @@ public interface ResultDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ResultEntity result);
 
-    @Query("SELECT * FROM results ORDER BY timestamp DESC")
-    LiveData<List<ResultEntity>> getAllResults();
 
-    @Query("SELECT * FROM results WHERE id = :resultId")
-    LiveData<ResultEntity> getResultById(String resultId);
+    @Query("SELECT * FROM results")
+    List<ResultEntity> getAllResults(); // Return a List instead of LiveData
 
     @Query("DELETE FROM results WHERE id = :resultId")
     void deleteResult(String resultId);

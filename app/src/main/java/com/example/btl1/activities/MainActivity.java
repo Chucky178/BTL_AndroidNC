@@ -1,5 +1,6 @@
 package com.example.btl1.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -77,6 +78,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Decree168Activity.class );
+                startActivity(intent);
+            }
+        });
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout layoutHistory = findViewById(R.id.layoutHistory);
+        ((android.view.View) layoutHistory).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class );
                 startActivity(intent);
             }
         });
