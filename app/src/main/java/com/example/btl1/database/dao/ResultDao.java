@@ -20,6 +20,9 @@ public interface ResultDao {
     @Query("SELECT * FROM results")
     List<ResultEntity> getAllResults(); // Return a List instead of LiveData
 
+    @Query("Select * from results where timeCompleted= :time limit 1")
+    ResultEntity getResultsByTime(int time);
+
     @Query("DELETE FROM results WHERE id = :resultId")
     void deleteResult(String resultId);
 }

@@ -198,7 +198,7 @@ public class ExamDetailActivity extends AppCompatActivity {
         result.setTong_so_cau(questionList.size());
         result.setThoi_gian_hoan_thanh(thoiGianHoanThanhGiay);
         result.setNgay_lam(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(new Date()));
-        result.setTrang_thai(score >= 25 ? "đạt" : "không đạt");
+        result.setTrang_thai(score >= 21 ? "đạt" : "không đạt");
 
         // Set result details
         Map<String, ResultDetail> chiTietCauHoi = new HashMap<>();
@@ -226,6 +226,7 @@ public class ExamDetailActivity extends AppCompatActivity {
                 intent.putExtra("ma_ket_qua", maKetQua);
                 intent.putExtra("score", score);
                 intent.putExtra("totalQuestions", questionList.size());
+                intent.putExtra("time", thoiGianHoanThanhGiay);
                 startActivity(intent);
                 finish();
             }
@@ -235,7 +236,7 @@ public class ExamDetailActivity extends AppCompatActivity {
                 // If we can't get the exam name, save with default name
                 saveResultToRoomDatabase(result, "Bài thi");
 
-                Toast.makeText(ExamDetailActivity.this, "Đã lưu kết quả bài thi vào cơ sở dữ liệu local!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ExamDetailActivity.this, "Đã lưu kết quả bài thi vào cơ sở dữ liệu local!", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(ExamDetailActivity.this, ResultActivity.class);
                 intent.putExtra("ma_ket_qua", maKetQua);

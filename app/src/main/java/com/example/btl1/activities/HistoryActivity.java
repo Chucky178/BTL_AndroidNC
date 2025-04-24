@@ -43,9 +43,9 @@ public class HistoryActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         // Set item click listener
-        adapter.setOnItemClickListener(result ->
-                Toast.makeText(this, "Đã chọn kết quả: " + result.getMa_de(), Toast.LENGTH_SHORT).show()
-        );
+//        adapter.setOnItemClickListener(result ->
+////                Toast.makeText(this, "Đã chọn kết quả: " + result.getMa_de(), Toast.LENGTH_SHORT).show()
+//        );
 
         // Load exam history
         loadExamHistory();

@@ -47,11 +47,21 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         Result result = resultList.get(position);
 
         holder.tvExamName.setText(result.getMa_de()); // Display exam name or ID
-        holder.tvScore.setText("Điểm: " + result.getDiem_so());
+        holder.tvScore.setText("Điểm: " + result.getDiem_so() + " / " + result.getTong_so_cau());
 
         // Format timestamp to readable date
         String formattedDate = result.getNgay_lam();
         holder.tvTime.setText("Ngày làm: " + formattedDate);
+        holder.tvExamCode.setText("Mã đề: " + result.getMa_de());
+
+        String status = result.getTrang_thai();
+        if(status.equals("đạt")){
+            holder.tvStatus.setText("Trạng thái: " + status);
+            holder.tvStatus.setTextColor(context.getResources().getColor(R.color.green));
+        } else {
+            holder.tvStatus.setText("Trạng thái: " + status);
+            holder.tvStatus.setTextColor(context.getResources().getColor(R.color.red));
+        }
 
         // Set click listener
         holder.itemView.setOnClickListener(v -> {
@@ -67,13 +77,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     }
 
     public static class HistoryViewHolder extends RecyclerView.ViewHolder {
-        TextView tvExamName, tvScore, tvTime;
+        TextView tvExamName, tvScore, tvTime, tvExamCode, tvStatus;
 
         public HistoryViewHolder(@NonNull View itemView) {
             super(itemView);
             tvExamName = itemView.findViewById(R.id.tv_exam_date);
             tvScore = itemView.findViewById(R.id.tv_exam_score);
             tvTime = itemView.findViewById(R.id.tv_exam_date);
+            tvExamCode = itemView.findViewById(R.id.tv_examName);
+            tvStatus = itemView.findViewById(R.id.tv_status);
         }
     }
 }

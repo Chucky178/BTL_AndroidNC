@@ -29,6 +29,10 @@ public class ResultRepository {
         return resultDao.getAllResults(); // Fetch as List
     }
 
+    public ResultEntity getResultsByTime(int time) {
+        return resultDao.getResultsByTime(time);
+    }
+
 
     private static class InsertResultAsyncTask extends AsyncTask<ResultEntity, Void, Void> {
         private ResultDao resultDao;
