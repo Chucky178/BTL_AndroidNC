@@ -198,7 +198,7 @@ public class ExamDetailActivity extends AppCompatActivity {
         result.setTong_so_cau(questionList.size());
         result.setThoi_gian_hoan_thanh(thoiGianHoanThanhGiay);
         result.setNgay_lam(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(new Date()));
-        result.setTrang_thai(score >= 21 ? "đạt" : "không đạt");
+        result.setTrang_thai(score >= 21 ? "Đạt" : "Không đạt");
 
         // Set result details
         Map<String, ResultDetail> chiTietCauHoi = new HashMap<>();
