@@ -3,6 +3,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!-- TextView hiển thị số lượng lịch sử thi -->
+    <TextView
+        android:id="@+id/tvHistoryCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Số lượng lịch sử thi: 0"
+        android:textSize="18sp"
+        android:textColor="@color/black" />
+
+    <!-- TextView thông báo khi không có lịch sử thi -->
     <TextView
         android:id="@+id/tvEmpty"
         android:layout_width="match_parent"
@@ -11,10 +23,13 @@
         android:padding="16dp"
         android:text="Không có lịch sử thi"
         android:visibility="gone"
-        android:textSize="16sp" />
+        android:textSize="18sp"
+        android:textColor="@color/black" />
 
+    <!-- RecyclerView hiển thị danh sách lịch sử thi -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewHistory"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>

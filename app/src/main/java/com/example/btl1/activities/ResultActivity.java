@@ -44,13 +44,14 @@ public class ResultActivity extends AppCompatActivity {
         btnRetry = findViewById(R.id.btnRetry);
         gridView = findViewById(R.id.gridViewQuestions);
 
+        // Lấy thông tin từ Intent
         Intent intent = getIntent();
         int score = intent.getIntExtra("score", 0);
         int totalQuestions = intent.getIntExtra("totalQuestions", 0);
         int time = intent.getIntExtra("time", 0);
         String maKetQua = intent.getStringExtra("ma_ket_qua");
 
-        // Load thông tin bài thi
+        // Hiển thị thông tin bài thi
         if (maKetQua != null) {
             loadExamInfo(time);
             loadDetailResults(maKetQua);
@@ -65,6 +66,7 @@ public class ResultActivity extends AppCompatActivity {
             loadQuestionFromFirebase(result.getQuestionId(), result.getSelectedAnswer());
         });
     }
+
 
     private void loadExamInfo(int time) {
         ResultRepository repository = new ResultRepository(getApplication());

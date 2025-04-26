@@ -3,17 +3,22 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.btl1.R;
@@ -26,7 +31,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 public class DetailResultAdapter extends BaseAdapter {
 
     private Context context;
@@ -121,22 +129,106 @@ public class DetailResultAdapter extends BaseAdapter {
         });
     }
 
-
     private void showQuestionDialog(Question question, String userAnswer) {
-        String message = "Nội dung: " + question.getNoiDungCauHoi() + "\n\n"
-                + "Đáp án 1: " + question.getDapAn1() + "\n"
-                + "Đáp án 2: " + question.getDapAn2() + "\n"
-                + "Đáp án 3: " + question.getDapAn3() + "\n"
-                + "Đáp án 4: " + question.getDapAn4() + "\n\n"
-                + "Đáp án đúng: " + question.getDapAnDung() + "\n"
-                + "Bạn chọn: " + userAnswer + "\n\n"
-                + "Giải thích: " + question.getGiaiThichCauHoi();
+        // Inflate layout
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_question_detail, null);
 
+        // Ánh xạ view
+        TextView tvContent = dialogView.findViewById(R.id.tvContent);
+        ImageView imgQuestion = dialogView.findViewById(R.id.imgQuestion);
+        RadioGroup rgOptions = dialogView.findViewById(R.id.rgOptions);
+        RadioButton rbOption1 = dialogView.findViewById(R.id.rbOption1);
+        RadioButton rbOption2 = dialogView.findViewById(R.id.rbOption2);
+        RadioButton rbOption3 = dialogView.findViewById(R.id.rbOption3);
+        RadioButton rbOption4 = dialogView.findViewById(R.id.rbOption4);
+        TextView tvExplanation = dialogView.findViewById(R.id.tvExplanation);
+
+        // Set nội dung câu hỏi
+        tvContent.setText(question.getNoiDungCauHoi());
+
+        // Set hình ảnh nếu có
+        String imageName = question.getHinhAnh();
+        if (imageName != null && !imageName.isEmpty()) {
+            int imageResId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
+            if (imageResId != 0) {
+                imgQuestion.setImageResource(imageResId);
+                imgQuestion.setVisibility(View.VISIBLE);
+            } else {
+                imgQuestion.setVisibility(View.GONE);
+            }
+        } else {
+            imgQuestion.setVisibility(View.GONE);
+        }
+
+        // Set đáp án
+        setupOption(rbOption1, question.getDapAn1());
+        setupOption(rbOption2, question.getDapAn2());
+        setupOption(rbOption3, question.getDapAn3());
+        setupOption(rbOption4, question.getDapAn4());
+
+        // Xử lý bôi màu đáp án đúng
+        highlightCorrectAnswer(question.getDapAnDung(), userAnswer, rbOption1, rbOption2, rbOption3, rbOption4);
+
+        // Set giải thích
+        tvExplanation.setText("Giải thích: " + question.getGiaiThichCauHoi());
+
+        // Tạo Dialog
         new AlertDialog.Builder(context)
                 .setTitle("Chi tiết câu hỏi")
-                .setMessage(message)
+                .setView(dialogView)
                 .setPositiveButton("OK", null)
                 .show();
+    }
+
+    private void setupOption(RadioButton rb, String text) {
+        if (text == null || text.isEmpty()) {
+            rb.setVisibility(View.GONE);
+        } else {
+            rb.setText(text);
+            rb.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void highlightCorrectAnswer(String correctAnswerKey, String userAnswerKey,
+                                        RadioButton rbOption1, RadioButton rbOption2,
+                                        RadioButton rbOption3, RadioButton rbOption4) {
+        // Mapping key với RadioButton
+        Map<String, RadioButton> map = new HashMap<>();
+        map.put("dap_an_1", rbOption1);
+        map.put("dap_an_2", rbOption2);
+        map.put("dap_an_3", rbOption3);
+        map.put("dap_an_4", rbOption4);
+
+        for (Map.Entry<String, RadioButton> entry : map.entrySet()) {
+            RadioButton rb = entry.getValue();
+            if (rb.getVisibility() == View.VISIBLE) {
+                String key = entry.getKey();
+
+                // Không dùng setEnabled(false)
+                rb.setClickable(false);
+                rb.setFocusable(false);
+
+                // Gán mặc định màu đen trước
+                rb.setTextColor(ContextCompat.getColor(context, R.color.black));
+                rb.setTypeface(Typeface.DEFAULT); // Mặc định bình thường
+
+                // Nếu là đáp án đúng
+                if (key.equals(correctAnswerKey)) {
+                    rb.setTextColor(ContextCompat.getColor(context, R.color.correct_answer)); // màu xanh
+                    rb.setTypeface(Typeface.DEFAULT_BOLD); // In đậm
+                }
+
+                // Nếu người dùng chọn đáp án này
+                if (key.equals(userAnswerKey)) {
+                    rb.setChecked(true); // Select vào đáp án người dùng chọn
+
+                    // Nếu chọn sai
+                    if (!userAnswerKey.equals(correctAnswerKey)) {
+                        rb.setTextColor(ContextCompat.getColor(context, R.color.wrong_answer)); // màu đỏ
+                    }
+                }
+            }
+        }
     }
 
 }
