@@ -16,16 +16,16 @@
             android:text="Câu hỏi"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="0dp" />
 
         <ImageView
             android:id="@+id/imgQuestion"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_gravity="center"
-            android:scaleType="fitCenter"
-            android:src="@android:drawable/ic_menu_help"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="0dp"
+
+            android:src="@android:drawable/ic_menu_help" />
 
         <RadioGroup
             android:id="@+id/rgOptions"

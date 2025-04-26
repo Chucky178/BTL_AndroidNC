@@ -1,93 +1,177 @@
 package com.example.btl1.activities;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.btl1.R;
-import com.example.btl1.Repostories.ResultRepository;
+import com.example.btl1.Repostories.DetailResultRepository;
+import com.example.btl1.adapters.DetailResultAdapter;
+import com.example.btl1.database.entity.DetailResultEntity;
 import com.example.btl1.database.entity.ResultEntity;
-import com.example.btl1.models.Result;
+import com.example.btl1.Repostories.ResultRepository;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResultActivity extends AppCompatActivity {
-    private TextView tvExamName, tvScore, tvCorrectAnswers, tvTime;
+
+    private TextView tvExamStatus, tvScore, tvTime;
     private Button btnRetry;
+    private GridView gridView;
+
+    private DetailResultAdapter adapter;
+    private List<DetailResultEntity> detailResultList = new ArrayList<>();
+    private DetailResultRepository detailRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        // Khởi tạo các view
-        initViews();
+        tvExamStatus = findViewById(R.id.tvExamStatus);
+        tvScore = findViewById(R.id.tvScore);
+        tvTime = findViewById(R.id.tvTime);
+        btnRetry = findViewById(R.id.btnRetry);
+        gridView = findViewById(R.id.gridViewQuestions);
 
-        // Lấy dữ liệu từ Intent
         Intent intent = getIntent();
         int score = intent.getIntExtra("score", 0);
         int totalQuestions = intent.getIntExtra("totalQuestions", 0);
-        String maKetQua = intent.getStringExtra("ma_ket_qua");
         int time = intent.getIntExtra("time", 0);
+        String maKetQua = intent.getStringExtra("ma_ket_qua");
 
-
-
-
+        // Load thông tin bài thi
         if (maKetQua != null) {
-            loadExamName(time);
+            loadExamInfo(time);
+            loadDetailResults(maKetQua);
         }
 
-        // Xử lý nút "Thi lại"
+        // Retry
         btnRetry.setOnClickListener(v -> retryExam());
+
+        // Khi bấm vào từng câu hỏi
+        gridView.setOnItemClickListener((adapterView, view, position, id) -> {
+            DetailResultEntity result = detailResultList.get(position);
+            loadQuestionFromFirebase(result.getQuestionId(), result.getSelectedAnswer());
+        });
     }
 
-    private void initViews() {
-        tvExamName = findViewById(R.id.tvExamName);
-        tvScore = findViewById(R.id.tvScore);
-        tvCorrectAnswers = findViewById(R.id.tvCorrectAnswers);
-        tvTime = findViewById(R.id.tvTime);
-        btnRetry = findViewById(R.id.btnRetry);
-    }
-
-//    private void displayBasicInfo(int score, int totalQuestions) {
-//        tvScore.setText(String.format("Điểm số: %d", score));
-//        tvCorrectAnswers.setText(String.format("Số câu đúng: %d/%d", score, totalQuestions));
-//    }
-
-
-    private void loadExamName(int time) {
-        // Create a ResultRepository instance
+    private void loadExamInfo(int time) {
         ResultRepository repository = new ResultRepository(getApplication());
-
-        // Fetch the exam result from the Room database
         new Thread(() -> {
             ResultEntity resultEntity = repository.getResultsByTime(time);
             runOnUiThread(() -> {
                 if (resultEntity != null) {
-                    tvExamName.setText(resultEntity.getExamName());
-                    tvTime.setText(String.format("Thời gian hoàn thành: %d phút %d giây",
-                            resultEntity.getTimeCompleted() / 60, resultEntity.getTimeCompleted() % 60));
-                    tvScore.setText(String.format("Điểm số: %d/%d", resultEntity.getScore(), resultEntity.getTotalQuestions()));
+                    tvExamStatus.setText(resultEntity.getStatus());
+                    tvScore.setText("Điểm số: " + resultEntity.getScore() + "/" + resultEntity.getTotalQuestions());
+                    int minutes = resultEntity.getTimeCompleted() / 60;
+                    int seconds = resultEntity.getTimeCompleted() % 60;
+                    tvTime.setText("Thời gian hoàn thành: " + minutes + " phút " + seconds + " giây");
                 } else {
-                    tvExamName.setText("Không tìm thấy kết quả");
+                    tvExamStatus.setText("Không tìm thấy kết quả");
                 }
             });
         }).start();
     }
 
-    private void displayCompletionTime(int seconds) {
-        int minutes = seconds / 60;
-        int remainingSeconds = seconds % 60;
-        tvTime.setText(String.format("Thời gian hoàn thành: %d phút %d giây", minutes, remainingSeconds));
+    private void loadDetailResults(String maKetQua) {
+        detailRepo = new DetailResultRepository(getApplication());
+        detailRepo.getDetailsByResultId(maKetQua).observe(this, detailResultEntities -> {
+            if (detailResultEntities != null && !detailResultEntities.isEmpty()) {
+                detailResultList.clear();
+                detailResultList.addAll(detailResultEntities);
+
+                // Kiểm tra adapter có null không trước khi gọi notifyDataSetChanged()
+                if (adapter == null) {
+                    adapter = new DetailResultAdapter(ResultActivity.this, detailResultList);
+                    gridView.setAdapter(adapter);
+                } else {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+
+//    private void loadDetailResults(String maKetQua) {
+//        detailRepo = new DetailResultRepository(getApplication());
+//        new Thread(() -> {
+//            detailResultList = detailRepo.getDetailsByResultId(maKetQua);
+//            runOnUiThread(() -> {
+//                adapter = new DetailResultAdapter(ResultActivity.this, detailResultList);
+//                gridView.setAdapter(adapter);
+//            });
+//        }).start();
+//    }
+
+    private void loadQuestionFromFirebase(String maCauHoi, String luaChon) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("cau hoi");
+
+        ref.orderByChild("ma_cau_hoi").equalTo(maCauHoi)
+                .addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        for (DataSnapshot child : snapshot.getChildren()) {
+                            String noiDung = child.child("noi_dung_cau_hoi").getValue(String.class);
+                            String dapAnDung = child.child("dap_an_dung").getValue(String.class);
+                            String giaiThich = child.child("giai_thich_cau_hoi").getValue(String.class);
+
+                            String d1 = child.child("dap_an_1").getValue(String.class);
+                            String d2 = child.child("dap_an_2").getValue(String.class);
+                            String d3 = child.child("dap_an_3").getValue(String.class);
+                            String d4 = child.child("dap_an_4").getValue(String.class);
+
+                            String dapAnNguoiDung = luaChon;
+
+                            StringBuilder builder = new StringBuilder();
+                            builder.append("Câu hỏi: ").append(noiDung).append("\n\n");
+                            builder.append("A. ").append(d1).append("\n");
+                            builder.append("B. ").append(d2).append("\n");
+                            if (d3 != null && !d3.isEmpty()) builder.append("C. ").append(d3).append("\n");
+                            if (d4 != null && !d4.isEmpty()) builder.append("D. ").append(d4).append("\n\n");
+
+                            builder.append("Bạn chọn: ").append(chuyenDapAn(luaChon)).append("\n");
+                            builder.append("Đáp án đúng: ").append(chuyenDapAn(dapAnDung)).append("\n\n");
+                            builder.append("Giải thích: ").append(giaiThich);
+
+                            new AlertDialog.Builder(ResultActivity.this)
+                                    .setTitle("Chi tiết câu hỏi")
+                                    .setMessage(builder.toString())
+                                    .setPositiveButton("Đóng", null)
+                                    .show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        Toast.makeText(ResultActivity.this, "Lỗi tải dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private String chuyenDapAn(String dapAn) {
+        switch (dapAn) {
+            case "dap_an_1":
+                return "A";
+            case "dap_an_2":
+                return "B";
+            case "dap_an_3":
+                return "C";
+            case "dap_an_4":
+                return "D";
+            default:
+                return "Không xác định";
+        }
     }
 
     private void retryExam() {

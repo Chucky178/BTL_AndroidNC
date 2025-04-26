@@ -24,10 +24,14 @@ public class DetailResultRepository {
         new InsertDetailResultAsyncTask(detailResultDao).execute(detailResult);
     }
 
-    // Phương thức lấy danh sách chi tiết kết quả theo resultId
-    public List<DetailResultEntity> getDetailsByResultId(String resultId) {
-        return detailResultDao.getDetailsByResultId(resultId);
-    }
+//    // Phương thức lấy danh sách chi tiết kết quả theo resultId
+//    public List<DetailResultEntity> getDetailsByResultId(String resultId) {
+//        return detailResultDao.getDetailsByResultId(resultId);
+//    }
+public LiveData<List<DetailResultEntity>> getDetailsByResultId(String resultId) {
+    return detailResultDao.getDetailsByResultId(resultId);
+}
+
 
     // Phương thức xóa các chi tiết kết quả theo resultId
     public void deleteDetailsByResultId(String resultId) {
@@ -63,4 +67,6 @@ public class DetailResultRepository {
             return null;
         }
     }
+
+
 }
