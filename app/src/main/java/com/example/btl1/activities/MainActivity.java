@@ -80,6 +80,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout layoutHistory = findViewById(R.id.layoutHistory);
+        ((android.view.View) layoutHistory).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class );
+                startActivity(intent);
+            }
+        });
     }
 
     // Kiểm tra kết nối Firebase

@@ -33,17 +33,13 @@ android {
 }
 
 dependencies {
-    implementation("com.google.android.material:material:1.12.0")
-
-    // Firebase BoM & các module cần thiết
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-    implementation("com.google.firebase:firebase-database")
+    implementation("com.google.android.material:material:1.9.0")
     implementation("com.google.firebase:firebase-firestore")
-    implementation("com.google.firebase:firebase-analytics")
-
+    implementation ("com.google.firebase:firebase-database:20.2.1")
     implementation("androidx.annotation:annotation:1.7.0")
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
-
+    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
