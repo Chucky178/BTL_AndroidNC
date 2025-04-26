@@ -116,7 +116,7 @@ public class ExamDetailActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 timerTextView.setText("Hết giờ!");  // Khi hết giờ
-                // TODO: Xử lý nộp bài tự động tại đây
+                submitExam();
             }
         }.start();
     }
