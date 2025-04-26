@@ -47,4 +47,9 @@ public class ResultRepository {
             return null;
         }
     }
+
+    public ResultEntity getResultById(String maKetQua) {
+        return resultDao.getResultById(maKetQua);
+    }
+
 }

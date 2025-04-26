@@ -7,15 +7,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
-
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/tvQuestionIndex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Câu hỏi"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="5dp" />
         <TextView
             android:id="@+id/tvQuestionContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Câu hỏi"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_marginBottom="0dp" />
 
         <ImageView
@@ -36,22 +44,30 @@
             <RadioButton
                 android:id="@+id/rbOption1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="5sp" />
 
             <RadioButton
                 android:id="@+id/rbOption2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="5sp"/>
 
             <RadioButton
                 android:id="@+id/rbOption3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="5sp"/>
 
             <RadioButton
                 android:id="@+id/rbOption4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="5sp"/>
         </RadioGroup>
 
     </LinearLayout>

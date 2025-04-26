@@ -51,6 +51,7 @@ public class ExamDetailActivity extends AppCompatActivity {
     private List<ResultDetail> resultDetail;
     private ViewPager2 viewPager2;
 
+    private boolean isLiet = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,9 +141,9 @@ public class ExamDetailActivity extends AppCompatActivity {
     }
     private void submitExam() {
         resultDetail = new ArrayList<>();
-        score = 0; // Đặt lại điểm số về 0
+        score = 0;
+        isLiet = false; // reset lại mỗi lần nộp bài
 
-        // Tính điểm và tạo chi tiết kết quả
         for (int i = 0; i < questionList.size(); i++) {
             Question q = questionList.get(i);
             String dapAnChon = questionPagerAdapter.getUserAnswer(i);
@@ -157,9 +158,16 @@ public class ExamDetailActivity extends AppCompatActivity {
                 rd.setTrang_thai("chua tra loi");
             } else if (dapAnChon.equals(dapAnDung)) {
                 rd.setTrang_thai("dung");
-                score++; // Tăng điểm chỉ một lần ở đây
+                score++;
             } else {
                 rd.setTrang_thai("sai");
+            }
+
+            // Kiểm tra nếu là câu điểm liệt mà trả lời sai hoặc chưa trả lời
+            if ("1".equals(q.getIsCauDiemLiet())) { // kiểm tra is_cau_diem_liet = "1"
+                if (!"dung".equals(rd.getTrang_thai())) {
+                    isLiet = true; // bị liệt
+                }
             }
 
             resultDetail.add(rd);
@@ -222,7 +230,11 @@ public class ExamDetailActivity extends AppCompatActivity {
         result.setTong_so_cau(questionList.size());
         result.setThoi_gian_hoan_thanh(thoiGianHoanThanhGiay);
         result.setNgay_lam(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(new Date()));
-        result.setTrang_thai(score >= 21 ? "Đạt" : "Không đạt");
+        if (isLiet) {
+            result.setTrang_thai("Không đạt (Sai câu điểm liệt)");
+        } else {
+            result.setTrang_thai(score >= 21 ? "Đạt" : "Không đạt");
+        }
 
         // Set result details
         Map<String, ResultDetail> chiTietCauHoi = new HashMap<>();
@@ -265,6 +277,7 @@ public class ExamDetailActivity extends AppCompatActivity {
                 saveResultToRoomDatabase(result, "Bài thi");
 
                 // Lưu chi tiết câu hỏi vào Room
+                saveDetailResultToRoomDatabase(resultDetail, maKetQua);
                 saveDetailResultToRoomDatabase(resultDetail, maKetQua);
 
                 // Chuyển qua màn hình kết quả

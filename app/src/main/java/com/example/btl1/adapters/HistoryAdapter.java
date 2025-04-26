@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.btl1.R;
 import com.example.btl1.models.Result;
 import com.example.btl1.activities.ResultActivity; // Import ResultActivity
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -37,7 +41,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
         Result result = resultList.get(position);
 
-        holder.tvExamName.setText(result.getMa_de()); // Display exam name or ID
+        // Lấy tên đề thi từ Firebase thay vì chỉ hiển thị mã đề
+        loadExamNameFromFirebase(result.getMa_de(), holder.tvExamName);
+
         holder.tvScore.setText(result.getDiem_so() + " / " + result.getTong_so_cau());
 
         // Format timestamp to readable date
@@ -47,7 +53,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
 
         String status = result.getTrang_thai();
         if (status.equals("Đạt")) {
-            holder.tvStatus.setText("Trạng thái: " + status);
+            holder.tvStatus.setText(status);
             holder.tvStatus.setTextColor(context.getResources().getColor(R.color.green));
         } else {
             holder.tvStatus.setText(status);
@@ -69,6 +75,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         });
     }
 
+
     @Override
     public int getItemCount() {
         return resultList.size();
@@ -87,4 +94,32 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
             tvExamTime = itemView.findViewById(R.id.tv_exam_time);
         }
     }
+    private void loadExamNameFromFirebase(String maDe, TextView tvExamName) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("de_thi");
+
+        ref.orderByChild("ma_de").equalTo(maDe)
+                .addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            for (DataSnapshot child : snapshot.getChildren()) {
+                                String tenDe = child.child("ten_de").getValue(String.class);
+                                if (tenDe != null) {
+                                    tvExamName.setText(tenDe);
+                                } else {
+                                    tvExamName.setText("Không rõ tên đề");
+                                }
+                            }
+                        } else {
+                            tvExamName.setText("Không tìm thấy đề thi");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        tvExamName.setText("Lỗi tải tên đề");
+                    }
+                });
+    }
+
 }

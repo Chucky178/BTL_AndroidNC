@@ -25,4 +25,7 @@ public interface ResultDao {
 
     @Query("DELETE FROM results WHERE id = :resultId")
     void deleteResult(String resultId);
+    @Query("SELECT * FROM results WHERE id = :maKetQua LIMIT 1")
+    ResultEntity getResultById(String maKetQua);
+
 }

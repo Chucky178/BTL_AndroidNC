@@ -33,12 +33,14 @@ public class QuestionPagerAdapter extends FragmentStateAdapter {
         QuestionFragment fragment = new QuestionFragment();
         Bundle args = new Bundle();
         args.putSerializable("cau_hoi", questions.get(position));  // Gửi câu hỏi vào Fragment
+        args.putInt("question_index", position);  // Gửi chỉ số câu hỏi
         fragment.setArguments(args);
-        // Lưu fragment vào fragmentMap sau khi tạo
         fragmentMap.put(position, fragment);
 
         return fragment;
     }
+
+
 
 
 

@@ -10,35 +10,109 @@
 
     <!-- Phần tổng kết -->
     <TextView
+        android:id="@+id/tvExamName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đề 1"
+        android:textSize="21sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"/>
+    <TextView
         android:id="@+id/tvExamStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tên bài thi"
-        android:textSize="24sp"
+        android:text="Không đạt"
+        android:textSize="21sp"
         android:textStyle="bold"
         android:textColor="#212121"
         android:letterSpacing="0.05"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:textAllCaps="true"
+        android:gravity="center"/>
 
-    <TextView
-        android:id="@+id/tvScore"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Điểm số: 0"
-        android:textSize="18sp"
-        android:textColor="#424242"
-        android:layout_marginBottom="8dp" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="15dp">
 
+        <TextView
+            android:id="@+id/tvScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15/25"
+            android:textSize="18sp"
+            android:textColor="#424242"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/baseline_assignment_turned_in_24"
+            android:layout_marginEnd="20dp" />   <!-- khoảng cách giữa 2 TextView -->
 
-    <TextView
-        android:id="@+id/tvTime"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 phút 20 giây"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:drawableStart="@drawable/baseline_access_time_24"
+            android:drawablePadding="5dp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_result_summary"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thời gian hoàn thành"
-        android:textSize="16sp"
-        android:textColor="#757575"
-        android:layout_marginBottom="15dp" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="8dp">
 
+        <TextView
+            android:id="@+id/tv_correct_count"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Đúng: 0" />
+
+        <TextView
+            android:id="@+id/tv_wrong_count"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Sai: 0" />
+
+        <TextView
+            android:id="@+id/tv_unanswered_count"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"
+            android:text="Chưa làm: 0" />
+    </LinearLayout>
+
+
+
+
+    <!-- Thêm GridView danh sách câu hỏi -->
+    <GridView
+        android:id="@+id/gridViewQuestions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:numColumns="5"
+        android:layout_marginTop="10dp"
+        android:verticalSpacing="8dp"
+        android:horizontalSpacing="8dp"
+        android:gravity="center"
+        android:stretchMode="columnWidth" />
     <Button
         android:id="@+id/btnRetry"
         android:layout_width="wrap_content"
@@ -48,20 +122,8 @@
         android:backgroundTint="#3F51B5"
         android:paddingHorizontal="24dp"
         android:paddingVertical="12dp"
-        android:textSize="16sp"
+        android:textSize="14sp"
+        android:padding="5dp"
         android:layout_marginBottom="24dp"
         android:elevation="4dp" />
-
-    <!-- Thêm GridView danh sách câu hỏi -->
-    <GridView
-        android:id="@+id/gridViewQuestions"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:numColumns="5"
-        android:verticalSpacing="8dp"
-        android:horizontalSpacing="8dp"
-        android:gravity="center"
-        android:stretchMode="columnWidth" />
-
 </LinearLayout>
