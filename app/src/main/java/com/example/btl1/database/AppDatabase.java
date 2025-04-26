@@ -11,7 +11,7 @@ import com.example.btl1.database.dao.DetailResultDao;  // Thêm import cho DAO c
 import com.example.btl1.database.entity.ResultEntity;
 import com.example.btl1.database.entity.DetailResultEntity;  // Thêm import cho entity của DetailResult
 
-@Database(entities = {ResultEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {ResultEntity.class, DetailResultEntity.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;
 
@@ -24,9 +24,10 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class,
                             "result_database")
-                    .fallbackToDestructiveMigration() 
+                    .fallbackToDestructiveMigration() // Chấp nhận xóa cơ sở dữ liệu cũ nếu có thay đổi
                     .build();
         }
         return instance;
     }
 }
+

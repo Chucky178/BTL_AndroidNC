@@ -14,8 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.btl1.R;
+import com.example.btl1.Repostories.DetailResultRepository;
 import com.example.btl1.Repostories.ResultRepository;
 import com.example.btl1.adapters.QuestionPagerAdapter;
+import com.example.btl1.database.AppDatabase;
+import com.example.btl1.database.dao.DetailResultDao;
+import com.example.btl1.database.entity.DetailResultEntity;
 import com.example.btl1.database.entity.ResultEntity;
 import com.example.btl1.models.Question;
 import com.example.btl1.models.Result;
@@ -183,6 +187,26 @@ public class ExamDetailActivity extends AppCompatActivity {
         repository.insert(resultEntity);
     }
 
+    private void saveDetailResultToRoomDatabase(List<ResultDetail> resultDetail, String maKetQua) {
+        // Tạo repository để thao tác database (đã xử lý nền)
+        DetailResultRepository repository = new DetailResultRepository(getApplication());
+
+        // Lặp qua danh sách resultDetail và lưu từng chi tiết câu hỏi
+        for (ResultDetail detail : resultDetail) {
+            String trangThai = detail.getTrang_thai();  // Trạng thái câu trả lời
+            DetailResultEntity detailResultEntity = new DetailResultEntity(
+                    maKetQua,                        // resultId
+                    detail.getMa_cau_hoi(),          // questionId
+                    detail.getDap_an_chon(),         // selectedAnswer
+                    trangThai                        // status
+            );
+
+            // Lưu vào database thông qua repository (đã xử lý async)
+            repository.insert(detailResultEntity);
+        }
+    }
+
+
     private void luuKetQuaThi() {
         // Create result ID
         String maKetQua = "KQ_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
@@ -220,8 +244,12 @@ public class ExamDetailActivity extends AppCompatActivity {
                 // Save to Room database only
                 saveResultToRoomDatabase(result, examName);
 
+                // Lưu chi tiết câu hỏi vào Room
+                saveDetailResultToRoomDatabase(resultDetail, maKetQua);
+
                 Toast.makeText(ExamDetailActivity.this, "Đã lưu kết quả bài thi vào cơ sở dữ liệu local!", Toast.LENGTH_SHORT).show();
 
+                // Chuyển qua màn hình kết quả
                 Intent intent = new Intent(ExamDetailActivity.this, ResultActivity.class);
                 intent.putExtra("ma_ket_qua", maKetQua);
                 intent.putExtra("score", score);
@@ -236,8 +264,10 @@ public class ExamDetailActivity extends AppCompatActivity {
                 // If we can't get the exam name, save with default name
                 saveResultToRoomDatabase(result, "Bài thi");
 
-//                Toast.makeText(ExamDetailActivity.this, "Đã lưu kết quả bài thi vào cơ sở dữ liệu local!", Toast.LENGTH_SHORT).show();
+                // Lưu chi tiết câu hỏi vào Room
+                saveDetailResultToRoomDatabase(resultDetail, maKetQua);
 
+                // Chuyển qua màn hình kết quả
                 Intent intent = new Intent(ExamDetailActivity.this, ResultActivity.class);
                 intent.putExtra("ma_ket_qua", maKetQua);
                 intent.putExtra("score", score);
@@ -247,7 +277,6 @@ public class ExamDetailActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private String layNoiDungDapAn(Question question, String dapAnDung) {
         switch (dapAnDung) {
