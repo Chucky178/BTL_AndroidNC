@@ -14,6 +14,7 @@ import com.example.btl1.R;
 import com.example.btl1.activities.QuestionDetailActivity;
 import com.example.btl1.models.Question;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder> {
@@ -40,7 +41,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         // Nhấn vào câu hỏi để mở chi tiết
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, QuestionDetailActivity.class);
-            intent.putExtra("cau hoi", question);
+            intent.putExtra("position", position);
+            intent.putExtra("cau hoi", new ArrayList<>(questionList));
             context.startActivity(intent);
         });
     }

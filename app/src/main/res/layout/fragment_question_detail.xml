@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_marginTop="15dp">
+
+    <TextView
+        android:id="@+id/tvQuestionContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
+    <ImageView
+        android:id="@+id/imgQuestion"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:src="@android:drawable/ic_menu_help" /> <!-- Ảnh mặc định -->
+
+    <RadioGroup
+        android:id="@+id/rgOptions"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RadioButton android:id="@+id/rbOption1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16sp" android:layout_marginTop="5dp"/>
+        <RadioButton android:id="@+id/rbOption2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16sp" android:layout_marginTop="5dp"/>
+        <RadioButton android:id="@+id/rbOption3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16sp" android:layout_marginTop="5dp"/>
+        <RadioButton android:id="@+id/rbOption4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16sp" android:layout_marginTop="5dp"/>
+    </RadioGroup>
+
+    <Button android:id="@+id/btnSubmit" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Kiểm tra"/>
+
+    <TextView android:id="@+id/tvExplanation" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        />
+</LinearLayout>
