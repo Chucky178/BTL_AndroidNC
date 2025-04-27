@@ -24,6 +24,8 @@ import com.example.btl1.database.entity.ResultEntity;
 import com.example.btl1.models.Question;
 import com.example.btl1.models.Result;
 import com.example.btl1.models.ResultDetail;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,13 +52,13 @@ public class ExamDetailActivity extends AppCompatActivity {
 
     private List<ResultDetail> resultDetail;
     private ViewPager2 viewPager2;
-
+    private TabLayout tabLayoutExam;
     private boolean isLiet = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_detail);
-
+        tabLayoutExam = findViewById(R.id.tabLayoutExam);
         viewPager2 = findViewById(R.id.viewPagerQuestions);
         timerTextView = findViewById(R.id.tvTimer);
         getSupportActionBar().setTitle("Làm đề thi thử");
@@ -66,10 +68,11 @@ public class ExamDetailActivity extends AppCompatActivity {
 
         resultDetail = new ArrayList<>();
 
-        startTimer();
+//        startTimer();
         loadExamQuestions(maDe);
 
         findViewById(R.id.submitButton).setOnClickListener(v -> submitExam());
+
     }
 
     private void loadExamQuestions(String maDe) {
@@ -95,7 +98,14 @@ public class ExamDetailActivity extends AppCompatActivity {
                             new Handler(Looper.getMainLooper()).post(() -> {
                                 questionPagerAdapter = new QuestionPagerAdapter(ExamDetailActivity.this, questionList);
                                 viewPager2.setAdapter(questionPagerAdapter);
+                                // Kết nối TabLayout và ViewPager2
+                                new TabLayoutMediator(tabLayoutExam, viewPager2, (tab, tabPosition) -> {
+                                    tab.setText("Câu " + (tabPosition + 1));
+                                }).attach();
+
+                                startTimer();
                             });
+
                         }
                     }
 

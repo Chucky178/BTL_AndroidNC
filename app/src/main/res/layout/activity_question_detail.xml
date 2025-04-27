@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
-
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+    <!-- TabLayout hiển thị các tab cho từng câu hỏi -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutQuestions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabMode="scrollable"/>
     <!-- RecyclerView để hiển thị danh sách câu hỏi -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerQuestions"

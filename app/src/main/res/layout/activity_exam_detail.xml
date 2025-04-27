@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     tools:context=".activities.ExamDetailActivity">
 
+    <!-- TabLayout hiển thị các tab cho từng câu hỏi -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutExam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabMode="scrollable" />
+
+    <!-- Thời gian đếm ngược -->
     <TextView
         android:id="@+id/tvTimer"
-        android:layout_width="88dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="144dp"
-        android:gravity="center"
-        android:padding="4dp"
-        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="8dp"
+        android:text="00:00"
         android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textStyle="bold" />
 
+    <!-- ViewPager2 hiển thị câu hỏi -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerQuestions"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTimer"
-        app:layout_constraintBottom_toTopOf="@id/submitButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        android:layout_weight="1" />
 
     <!-- Submit Button -->
     <Button
@@ -39,7 +42,8 @@
         android:layout_height="wrap_content"
         android:text="Kết thúc"
         android:padding="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:background="@drawable/button_bg"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

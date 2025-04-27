@@ -2,43 +2,43 @@
   "nhom_cau_hoi": [
       {
           "ma_nhom_cau_hoi": "NCH00",
-          "ten_nhom_cau_hoi": "TẤT CẢ CÂU HỎI",
+          "ten_nhom_cau_hoi": "Tất cả câu hỏi",
           "so_cau_hoi": 200,
           "hinh_anh": "ic_all"
       },
       {
           "ma_nhom_cau_hoi": "NCH01",
-          "ten_nhom_cau_hoi": "20 CÂU ĐIỂM LIỆT",
+          "ten_nhom_cau_hoi": "20 câu điểm liệt",
           "so_cau_hoi": 20,
           "hinh_anh": "ic_diemliet"
       },
       {
           "ma_nhom_cau_hoi": "NCH02",
-          "ten_nhom_cau_hoi": "KHÁI NIỆM VÀ QUY TẮC",
+          "ten_nhom_cau_hoi": "Khái niệm và quy tắc",
           "so_cau_hoi": 83,
           "hinh_anh": "ic_rule"
       },
       {
           "ma_nhom_cau_hoi": "NCH03",
-          "ten_nhom_cau_hoi": "VĂN HOÁ VÀ ĐẠO ĐỨC",
+          "ten_nhom_cau_hoi": "Văn hóa và đạo đức",
           "so_cau_hoi": 5,
           "hinh_anh": "ic_culture"
       },
       {
           "ma_nhom_cau_hoi": "NCH04",
-          "ten_nhom_cau_hoi": "KỸ THUẬT LÁI XE",
+          "ten_nhom_cau_hoi": "Kỹ thuật lái xe",
           "so_cau_hoi": 12,
           "hinh_anh": "ic_drive"
       },
       {
           "ma_nhom_cau_hoi": "NCH05",
-          "ten_nhom_cau_hoi": "BIỂN BÁO ĐƯỜNG BỘ",
+          "ten_nhom_cau_hoi": "Biển báo đường bộ",
           "so_cau_hoi": 65,
           "hinh_anh": "ic_stop"
       },
       {
           "ma_nhom_cau_hoi": "NCH06",
-          "ten_nhom_cau_hoi": "SA HÌNH",
+          "ten_nhom_cau_hoi": "Sa hình",
           "so_cau_hoi": 35,
           "hinh_anh": "ic_sahinh"
       }
