@@ -35,6 +35,7 @@ public class QuestionListActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewQuestions);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        getSupportActionBar().setTitle("Danh sách câu hỏi");
 
         questionList = new ArrayList<>();
 
@@ -45,6 +46,8 @@ public class QuestionListActivity extends AppCompatActivity {
         boolean hienTatCa = getIntent().getBooleanExtra("hien_tat_ca", false);
         boolean hienDiemLiet = getIntent().getBooleanExtra("hien_diem_liet", false);
         String maNhomCauHoi = getIntent().getStringExtra("ma_nhom_cau_hoi");
+        String tenNhom = getIntent().getStringExtra("ten_nhom");
+        getSupportActionBar().setTitle(tenNhom);
 
         if (hienTatCa) {
             loadAllQuestions();

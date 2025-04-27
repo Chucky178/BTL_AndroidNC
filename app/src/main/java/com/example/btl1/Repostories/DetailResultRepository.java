@@ -24,10 +24,6 @@ public class DetailResultRepository {
         new InsertDetailResultAsyncTask(detailResultDao).execute(detailResult);
     }
 
-//    // Phương thức lấy danh sách chi tiết kết quả theo resultId
-//    public List<DetailResultEntity> getDetailsByResultId(String resultId) {
-//        return detailResultDao.getDetailsByResultId(resultId);
-//    }
 public LiveData<List<DetailResultEntity>> getDetailsByResultId(String resultId) {
     return detailResultDao.getDetailsByResultId(resultId);
 }
@@ -53,7 +49,7 @@ public LiveData<List<DetailResultEntity>> getDetailsByResultId(String resultId) 
         }
     }
 
-    // AsyncTask để xóa dữ liệu trong bảng detail_results
+    // AsyncTask để xóa dữ liệu trong bảng detail_results = = result
     private static class DeleteDetailResultAsyncTask extends AsyncTask<String, Void, Void> {
         private DetailResultDao detailResultDao;
 
@@ -67,6 +63,9 @@ public LiveData<List<DetailResultEntity>> getDetailsByResultId(String resultId) 
             return null;
         }
     }
-
+    // Xóa tất cả các bản ghi trong bảng detailresult
+    public void deleteAllDetailResults() {
+        detailResultDao.deleteAllDetailResults(); // Phương thức xóa trong DAO của bảng detailresult
+    }
 
 }

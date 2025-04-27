@@ -1,25 +1,53 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bg_gray">
-
-    <!-- TextView hiển thị số lượng lịch sử thi -->
-    <TextView
-        android:id="@+id/tvHistoryCount"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="Số lượng lịch sử thi: 0"
-        android:textSize="18sp"
-        android:textColor="@color/black" />
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <!-- TextView hiển thị số lượng lịch sử thi -->
+        <TextView
+            android:id="@+id/tvHistoryCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:text="Số lượng lịch sử thi: 0"
+            android:textSize="18sp"
+            android:textColor="@color/black" />
+            <TextView
+                android:clickable="true"
+                android:id="@+id/btnDeleteHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="Xóa"
+            android:drawableStart="@drawable/baseline_delete_24"
+            android:textColor="@color/black"
+            android:drawablePadding="3dp"
+            android:textSize="16sp"
+            android:paddingEnd="5dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+
 
     <!-- TextView thông báo khi không có lịch sử thi -->
     <TextView
         android:id="@+id/tvEmpty"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:padding="16dp"
         android:text="Không có lịch sử thi"
@@ -31,6 +59,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewHistory"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menuContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
 </LinearLayout>

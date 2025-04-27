@@ -51,5 +51,8 @@ public class ResultRepository {
     public ResultEntity getResultById(String maKetQua) {
         return resultDao.getResultById(maKetQua);
     }
-
+    // Xóa tất cả các bản ghi trong bảng result
+    public void deleteAllResults() {
+        resultDao.deleteAllResults(); // Phương thức xóa trong DAO của bảng result
+    }
 }

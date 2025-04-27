@@ -2,6 +2,7 @@ package com.example.btl1.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -26,7 +27,7 @@ import java.util.List;
 public class ResultActivity extends AppCompatActivity {
 
     private TextView tvExamStatus, tvScore, tvTime, tvName, tv_correct_count, tv_wrong_count, tv_unanswered_count;
-    private Button btnRetry;
+    private Button btnRetry, btnViewHistory;
     private GridView gridView;
 
     private DetailResultAdapter adapter;
@@ -51,6 +52,9 @@ public class ResultActivity extends AppCompatActivity {
         tv_correct_count = findViewById(R.id.tv_correct_count);
         tv_wrong_count = findViewById(R.id.tv_wrong_count);
         tv_unanswered_count = findViewById(R.id.tv_unanswered_count);
+        btnViewHistory = findViewById(R.id.btnViewHistory);
+        getSupportActionBar().setTitle("Kết quả thi");
+
         // Lấy dữ liệu từ Intent
         Intent intent = getIntent();
         int score = intent.getIntExtra("score", 0);
@@ -64,7 +68,13 @@ public class ResultActivity extends AppCompatActivity {
         }
 
         btnRetry.setOnClickListener(v -> retryExam());
-
+        btnViewHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ResultActivity.this, HistoryActivity.class);
+                startActivity(i);
+            }
+        });
         gridView.setOnItemClickListener((adapterView, view, position, id) -> {
             DetailResultEntity result = detailResultList.get(position);
             loadQuestionFromFirebase(result.getQuestionId(), result.getSelectedAnswer());

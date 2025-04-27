@@ -85,20 +85,23 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
         holder.itemView.setOnClickListener(view -> {
             Topic selectedTopic = topics.get(position); // ✅ Lấy đúng kiểu
             String maNhom = selectedTopic.getMa_nhom_cau_hoi(); // ✅ Lấy mã nhóm
-
+            String tenNhom = selectedTopic.getTen_nhom_cau_hoi();
             Intent intent = new Intent(context, QuestionListActivity.class);
 
             switch (maNhom) {
                 case "NCH00":  // TẤT CẢ CÂU HỎI
                     intent.putExtra("hien_tat_ca", true);
+                    intent.putExtra("ten_nhom", "Tất cả câu hỏi");
                     break;
 
                 case "NCH01":  // CÂU HỎI ĐIỂM LIỆT
                     intent.putExtra("hien_diem_liet", true);
+                    intent.putExtra("ten_nhom", "20 câu điểm liệt");
                     break;
 
                 default: // Các nhóm còn lại
                     intent.putExtra("ma_nhom_cau_hoi", maNhom);
+                    intent.putExtra("ten_nhom", tenNhom);
                     break;
             }
 

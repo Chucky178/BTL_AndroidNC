@@ -141,6 +141,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_question_detail);  // layout có ViewPager
 
         viewPager = findViewById(R.id.viewPagerQuestions);
+        getSupportActionBar().setTitle("Câu hỏi");
 
         Intent intent = getIntent();
         // Lấy dữ liệu từ Intent

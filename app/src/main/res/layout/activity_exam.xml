@@ -6,6 +6,12 @@
     android:background="@color/bg_gray"
     android:padding="0dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
     <!-- RecyclerView để hiển thị danh sách câu hỏi -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDeThi"
@@ -49,4 +55,12 @@
  ==> Để đạt bài thi cần trả lời đúng 21/25 câu và không sai câu điểm liệt.
 "/>
     </ScrollView>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/menuContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
+
 </LinearLayout>

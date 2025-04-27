@@ -27,5 +27,7 @@ public interface ResultDao {
     void deleteResult(String resultId);
     @Query("SELECT * FROM results WHERE id = :maKetQua LIMIT 1")
     ResultEntity getResultById(String maKetQua);
-
+    // Xóa tất cả các bản ghi trong bảng result
+    @Query("DELETE FROM results")
+    void deleteAllResults();
 }

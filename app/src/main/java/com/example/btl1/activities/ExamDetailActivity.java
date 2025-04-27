@@ -59,6 +59,7 @@ public class ExamDetailActivity extends AppCompatActivity {
 
         viewPager2 = findViewById(R.id.viewPagerQuestions);
         timerTextView = findViewById(R.id.tvTimer);
+        getSupportActionBar().setTitle("Làm đề thi thử");
 
         maDe = getIntent().getStringExtra("ma_de");
         Log.d("loadExamQuestions", "Mã đề: " + maDe);
@@ -259,7 +260,7 @@ public class ExamDetailActivity extends AppCompatActivity {
                 // Lưu chi tiết câu hỏi vào Room
                 saveDetailResultToRoomDatabase(resultDetail, maKetQua);
 
-                Toast.makeText(ExamDetailActivity.this, "Đã lưu kết quả bài thi vào cơ sở dữ liệu local!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExamDetailActivity.this, "Đã lưu kết quả bài thi!", Toast.LENGTH_SHORT).show();
 
                 // Chuyển qua màn hình kết quả
                 Intent intent = new Intent(ExamDetailActivity.this, ResultActivity.class);

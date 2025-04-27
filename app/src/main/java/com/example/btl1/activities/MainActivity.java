@@ -7,12 +7,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.btl1.R;
 import com.example.btl1.adapters.TopicAdapter;
+import com.example.btl1.fragments.MenuFragment;
 import com.example.btl1.models.Topic;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,7 +39,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+// Thêm MenuFragment vào Activity
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.menuContainer, new MenuFragment());  // menuContainer là container để chứa fragment
+            transaction.commit();
+        }
+        getSupportActionBar().setTitle("Ôn thi GPLX A1 - Câu hỏi");
         recyclerView = findViewById(R.id.recyclerViewTopics);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -52,44 +62,11 @@ public class MainActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(topic -> {
             Intent intent = new Intent(MainActivity.this, QuestionListActivity.class);
             intent.putExtra("ma_nhom_cau_hoi", topic.getMa_nhom_cau_hoi());
+            intent.putExtra("ten_nhom", topic.getTen_nhom_cau_hoi());
             startActivity(intent);
         });
 
-        LinearLayout layoutExam = findViewById(R.id.layoutExam);
-        ((android.view.View) layoutExam).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ExamActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        LinearLayout layoutTips = findViewById(R.id.layoutTips);
-        ((android.view.View) layoutTips).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TipsActivity.class );
-                startActivity(intent);
-            }
-        });
-
-        LinearLayout layoutDecree = findViewById(R.id.layoutDecree);
-        ((android.view.View) layoutDecree).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Decree168Activity.class );
-                startActivity(intent);
-            }
-        });
-
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout layoutHistory = findViewById(R.id.layoutHistory);
-        ((android.view.View) layoutHistory).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, HistoryActivity.class );
-                startActivity(intent);
-            }
-        });
     }
 
     // Kiểm tra kết nối Firebase

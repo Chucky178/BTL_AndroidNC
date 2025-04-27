@@ -12,23 +12,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.btl1.R;
+import com.example.btl1.fragments.MenuFragment;
 
 public class Decree168Activity extends AppCompatActivity {
     TextView tvNghiDinh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+//        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_decree168);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
         tvNghiDinh = findViewById(R.id.textNghiDinh);
-
+// Thêm MenuFragment vào Activity
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.menuContainer, new MenuFragment());  // menuContainer là container để chứa fragment
+            transaction.commit();
+        }
+        getSupportActionBar().setTitle("Ôn thi GPLX A1 - Nghị định 168");
         String fullText =
                 "Nghị định 168/2024/NĐ-CP, có hiệu lực từ ngày 1/1/2025, thay thế Nghị định 100/2019/NĐ-CP, đã bổ sung và điều chỉnh nhiều quy định liên quan đến người điều khiển xe máy hạng A1 (dưới 125cc). Dưới đây là những điểm mới và nổi bật:\n" +
                         "\n" +

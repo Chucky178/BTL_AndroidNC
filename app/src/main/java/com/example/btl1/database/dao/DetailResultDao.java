@@ -20,9 +20,7 @@ public interface DetailResultDao {
     @Query("SELECT * FROM detail_results")
     List<DetailResultEntity> getAllDetails();
 
-    // Lấy tất cả các chi tiết kết quả theo resultId
-//    @Query("SELECT * FROM detail_results WHERE resultId = :resultId")
-//    List<DetailResultEntity> getDetailsByResultId(String resultId);
+
     @Query("SELECT * FROM detail_results WHERE resultId = :resultId")
     LiveData<List<DetailResultEntity>> getDetailsByResultId(String resultId);
 
@@ -36,4 +34,8 @@ public interface DetailResultDao {
 
     @Query("SELECT * FROM detail_results WHERE resultId = :maKetQua")
     LiveData<List<DetailResultEntity>> getDetailResultsByMaKetQua(String maKetQua);
+
+    // Xóa tất cả các bản ghi trong bảng detailresult
+    @Query("DELETE FROM detail_results")
+    void deleteAllDetailResults();
 }
