@@ -12,4 +12,11 @@
     <color name="wrong_answer">#F44336</color>  <!-- màu đỏ -->
     <color name="green">#00FF00</color>
     <color name="red">#FF0000</color>
+    <color name="bg_correct">#B7E4C7</color>
+    <color name="black_light">#1a1a1a </color>
+    <color name="lavender">#8692f7</color>
+    <color name="lavender_darker">#6572F5</color>
+    <color name="bg_gray">#F5F5F5 </color>
+
+
 </resources>

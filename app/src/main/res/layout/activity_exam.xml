@@ -3,13 +3,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/bg_gray"
+    android:padding="0dp">
 
     <!-- RecyclerView để hiển thị danh sách câu hỏi -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDeThi"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        android:clipToPadding="false"/>
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+
+        android:clipToPadding="false"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:textSize="18sp"
+        android:textColor="@color/black_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CẤU TRÚC ĐỀ THI"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textStyle="bold" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:padding="10dp"
+        android:layout_marginBottom="0dp">
+
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/black_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bao gồm thời gian 19 phút và 25 câu:\n
+ - 01 câu về khái niệm;\n
+ - 01 câu hỏi về tình huống mất an toàn giao thông nghiêm trọng;\n
+ - 06 câu về quy tắc giao thông;\n
+ - 01 câu về tốc độ, khoảng cách;\n
+ - 01 câu về văn hóa giao thông và đạo đức người lái xe;\n
+ - 01 câu về kỹ thuật lái xe hoặc cấu tạo sửa chữa;\n
+ - 07 câu về hệ thống biển báo đường bộ;\n
+ - 07 câu về giải các thế sa hình và kỹ năng xử lý tình huống giao thông.\n
+ ==> Để đạt bài thi cần trả lời đúng 21/25 câu và không sai câu điểm liệt.
+"/>
+    </ScrollView>
 </LinearLayout>

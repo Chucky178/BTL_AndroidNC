@@ -37,7 +37,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
     public void onBindViewHolder(@NonNull QuestionViewHolder holder, int position) {
         Question question = questionList.get(position);
         holder.tvQuestionContent.setText(question.getNoiDungCauHoi());
-
+        holder.tvIndex.setText(question.getThuTu());
         // Nhấn vào câu hỏi để mở chi tiết
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, QuestionDetailActivity.class);
@@ -53,11 +53,12 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
     }
 
     static class QuestionViewHolder extends RecyclerView.ViewHolder {
-        TextView tvQuestionContent;
+        TextView tvQuestionContent, tvIndex;
 
         public QuestionViewHolder(@NonNull View itemView) {
             super(itemView);
             tvQuestionContent = itemView.findViewById(R.id.tvQuestion);
+            tvIndex = itemView.findViewById(R.id.tvIndex);
         }
     }
 }

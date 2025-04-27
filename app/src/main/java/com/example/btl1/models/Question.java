@@ -7,6 +7,7 @@ public class Question implements Serializable {
     private String maCauHoi;
     private String maNhomCauHoi;
     private String maDe;
+    private String thuTu;
     private String noiDungCauHoi;
     private String dapAn1;
     private String dapAn2;
@@ -48,6 +49,15 @@ public class Question implements Serializable {
     @PropertyName("ma_de")
     public void setMaDe(String maDe) {
         this.maDe = maDe;
+    }
+
+    @PropertyName("thu_tu")
+    public String getThuTu() {
+        return thuTu;
+    }
+    @PropertyName("thu_tu")
+    public void setThuTu(String thuTu) {
+        this.thuTu = thuTu;
     }
 
     @PropertyName("noi_dung_cau_hoi")

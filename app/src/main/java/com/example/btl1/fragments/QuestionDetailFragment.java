@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -19,13 +20,13 @@ import com.example.btl1.R;
 import com.example.btl1.models.Question;
 
 public class QuestionDetailFragment extends Fragment {
-    private TextView tvQuestionContent, tvExplanation;
+    private TextView tvQuestionContent, tvExplanation, tvQuestionIndex, tvAnswer;
     private ImageView imgQuestion;
     private RadioGroup rgOptions;
     private RadioButton rbOption1, rbOption2, rbOption3, rbOption4;
     private Button btnSubmit;
     private Question question;
-
+    private LinearLayout layoutExplanation;
     public static QuestionDetailFragment newInstance(Question question) {
         QuestionDetailFragment fragment = new QuestionDetailFragment();
         Bundle args = new Bundle();
@@ -45,6 +46,7 @@ public class QuestionDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Ánh xạ các phần tử UI
+        layoutExplanation = view.findViewById(R.id.layoutExplanation);
         tvQuestionContent = view.findViewById(R.id.tvQuestionContent);
         imgQuestion = view.findViewById(R.id.imgQuestion);
         rgOptions = view.findViewById(R.id.rgOptions);
@@ -54,7 +56,8 @@ public class QuestionDetailFragment extends Fragment {
         rbOption4 = view.findViewById(R.id.rbOption4);
         tvExplanation = view.findViewById(R.id.tvExplanation);
         btnSubmit = view.findViewById(R.id.btnSubmit);
-
+        tvQuestionIndex = view.findViewById(R.id.tvQuestionIndex);
+        tvAnswer = view.findViewById(R.id.tvAnswer);
         // Nhận câu hỏi từ arguments
         if (getArguments() != null) {
             question = (Question) getArguments().getSerializable("cau_hoi");
@@ -66,6 +69,7 @@ public class QuestionDetailFragment extends Fragment {
             return;
         }
 
+        tvQuestionIndex.setText(question.getThuTu());
         // Hiển thị nội dung câu hỏi
         tvQuestionContent.setText(question.getNoiDungCauHoi());
 
@@ -82,16 +86,16 @@ public class QuestionDetailFragment extends Fragment {
         }
 
         // Hiển thị các đáp án
-        rbOption1.setText(question.getDapAn1());
+        rbOption1.setText("1. " + question.getDapAn1());
         rbOption1.setVisibility(question.getDapAn1().isEmpty() ? View.GONE : View.VISIBLE);
 
-        rbOption2.setText(question.getDapAn2());
+        rbOption2.setText("2. " + question.getDapAn2());
         rbOption2.setVisibility(question.getDapAn2().isEmpty() ? View.GONE : View.VISIBLE);
 
-        rbOption3.setText(question.getDapAn3());
+        rbOption3.setText("3. " + question.getDapAn3());
         rbOption3.setVisibility(question.getDapAn3().isEmpty() ? View.GONE : View.VISIBLE);
 
-        rbOption4.setText(question.getDapAn4());
+        rbOption4.setText("4. " + question.getDapAn4());
         rbOption4.setVisibility(question.getDapAn4().isEmpty() ? View.GONE : View.VISIBLE);
 
         tvExplanation.setVisibility(View.GONE);
@@ -106,21 +110,36 @@ public class QuestionDetailFragment extends Fragment {
 
             RadioButton selectedRadioButton = view.findViewById(selectedId);
             String selectedAnswer = "";
+
             if (selectedRadioButton == rbOption1) selectedAnswer = "dap_an_1";
             if (selectedRadioButton == rbOption2) selectedAnswer = "dap_an_2";
             if (selectedRadioButton == rbOption3) selectedAnswer = "dap_an_3";
             if (selectedRadioButton == rbOption4) selectedAnswer = "dap_an_4";
 
+            // Đặt lại màu cho tất cả RadioButton về mặc định trước
+            resetOptionsColor();
+
+            // Bôi màu xanh cho đáp án đúng
+            highlightCorrectAnswer();
+
             if (selectedAnswer.equals(question.getDapAnDung())) {
-                Toast.makeText(getContext(), "Chính xác!", Toast.LENGTH_SHORT).show();
-                tvExplanation.setText("Giải thích: " + question.getGiaiThichCauHoi());
-                tvExplanation.setVisibility(View.VISIBLE);
+//                tvAnswer.setText("Chính xác!");
+
+//                Toast.makeText(getContext(), "Chính xác!", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getContext(), "Sai! Đáp án đúng là: " + getCorrectAnswerText(), Toast.LENGTH_LONG).show();
-                tvExplanation.setText("Giải thích: " + question.getGiaiThichCauHoi());
-                tvExplanation.setVisibility(View.VISIBLE);
+//                tvAnswer.setText("Sai! Đáp án đúng là: " + getCorrectAnswerText());
+//                Toast.makeText(getContext(), "Sai! Đáp án đúng là: " + getCorrectAnswerText(), Toast.LENGTH_LONG).show();
+                // Nếu chọn sai thì bôi đỏ đáp án người dùng chọn
+                selectedRadioButton.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
             }
+
+            tvExplanation.setText(question.getGiaiThichCauHoi());
+            tvExplanation.setVisibility(View.VISIBLE);
+//            tvAnswer.setVisibility(View.VISIBLE);
+            layoutExplanation.setVisibility(View.VISIBLE);
+
         });
+
     }
 
     private String getCorrectAnswerText() {
@@ -132,4 +151,36 @@ public class QuestionDetailFragment extends Fragment {
             default: return "";
         }
     }
+    private void resetOptionsColor() {
+        rbOption1.setTextColor(getResources().getColor(android.R.color.black));
+        rbOption2.setTextColor(getResources().getColor(android.R.color.black));
+        rbOption3.setTextColor(getResources().getColor(android.R.color.black));
+        rbOption4.setTextColor(getResources().getColor(android.R.color.black));
+    }
+
+    private void highlightCorrectAnswer() {
+        RadioButton correctButton = null;
+
+        switch (question.getDapAnDung()) {
+            case "dap_an_1":
+                correctButton = rbOption1;
+                break;
+            case "dap_an_2":
+                correctButton = rbOption2;
+                break;
+            case "dap_an_3":
+                correctButton = rbOption3;
+                break;
+            case "dap_an_4":
+                correctButton = rbOption4;
+                break;
+        }
+
+        if (correctButton != null) {
+            correctButton.setTextColor(getResources().getColor(R.color.correct_answer));
+            correctButton.setTypeface(null, android.graphics.Typeface.BOLD); // IN ĐẬM
+        }
+    }
+
+
 }

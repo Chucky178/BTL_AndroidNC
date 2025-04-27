@@ -1,22 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:padding="0dp"
+    android:layout_marginBottom="0dp">
+
+
+<LinearLayout
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     android:layout_marginTop="15dp">
-
+    <TextView
+        android:id="@+id/tvQuestionIndex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Câu hỏi"
+        android:textSize="16sp"
+        android:textColor="@color/black_light"
+        android:layout_marginBottom="5dp" />
     <TextView
         android:id="@+id/tvQuestionContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="@color/black"/>
+        android:text="Câu hỏi"
+        android:textColor="@color/black_light"/>
     <ImageView
         android:id="@+id/imgQuestion"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:src="@android:drawable/ic_menu_help" /> <!-- Ảnh mặc định -->
 
@@ -25,6 +44,7 @@
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:orientation="vertical">
         <RadioButton android:id="@+id/rbOption1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16sp" android:layout_marginTop="5dp"/>
         <RadioButton android:id="@+id/rbOption2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16sp" android:layout_marginTop="5dp"/>
@@ -32,10 +52,60 @@
         <RadioButton android:id="@+id/rbOption4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16sp" android:layout_marginTop="5dp"/>
     </RadioGroup>
 
-    <Button android:id="@+id/btnSubmit" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Kiểm tra"/>
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_marginBottom="5dp"
+        android:layout_width="250dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_height="40dp"
+        android:textSize="16sp"
+        android:text="Kiểm tra"
+        android:background="@drawable/button_bg"/>
 
-    <TextView android:id="@+id/tvExplanation" android:layout_width="match_parent" android:layout_height="wrap_content"
+    <TextView android:id="@+id/tvAnswer" android:layout_width="match_parent" android:layout_height="wrap_content"
         android:visibility="gone"
+        android:textSize="16sp"
         android:textColor="@color/black"
+        android:layout_marginBottom="5dp"
         />
+    <LinearLayout
+        android:id="@+id/layoutExplanation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/bg_correct"
+        android:visibility="gone">
+
+        <!-- Tiêu đề: Giải thích đáp án -->
+        <TextView
+            android:drawableStart="@drawable/baseline_done_all_24"
+            android:drawablePadding="5dp"
+            android:id="@+id/tvTitleExplanation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Giải thích đáp án"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black_light"
+
+            android:paddingBottom="4dp"/>
+
+        <!-- Nội dung giải thích -->
+        <TextView
+            android:id="@+id/tvExplanation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="giai thich dap an"
+            android:textColor="@color/black_light"
+            android:lineSpacingExtra="4dp"
+            android:visibility="visible"
+            />
+
+    </LinearLayout>
+
 </LinearLayout>
+</ScrollView>

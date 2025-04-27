@@ -66,36 +66,18 @@ public class QuestionFragment extends Fragment {
             }
 
             // Hiển thị đáp án 1
-            if (question.getDapAn1() != null && !question.getDapAn1().isEmpty()) {
-                rbOption1.setText(question.getDapAn1());
-                rbOption1.setVisibility(View.VISIBLE);
-            } else {
-                rbOption1.setVisibility(View.GONE);
-            }
+            // Hiển thị các đáp án
+            rbOption1.setText("1. " + question.getDapAn1());
+            rbOption1.setVisibility(question.getDapAn1().isEmpty() ? View.GONE : View.VISIBLE);
 
-            // Hiển thị đáp án 2
-            if (question.getDapAn2() != null && !question.getDapAn2().isEmpty()) {
-                rbOption2.setText(question.getDapAn2());
-                rbOption2.setVisibility(View.VISIBLE);
-            } else {
-                rbOption2.setVisibility(View.GONE);
-            }
+            rbOption2.setText("2. " + question.getDapAn2());
+            rbOption2.setVisibility(question.getDapAn2().isEmpty() ? View.GONE : View.VISIBLE);
 
-            // Hiển thị đáp án 3
-            if (question.getDapAn3() != null && !question.getDapAn3().isEmpty()) {
-                rbOption3.setText(question.getDapAn3());
-                rbOption3.setVisibility(View.VISIBLE);
-            } else {
-                rbOption3.setVisibility(View.GONE);
-            }
+            rbOption3.setText("3. " + question.getDapAn3());
+            rbOption3.setVisibility(question.getDapAn3().isEmpty() ? View.GONE : View.VISIBLE);
 
-            // Hiển thị đáp án 4
-            if (question.getDapAn4() != null && !question.getDapAn4().isEmpty()) {
-                rbOption4.setText(question.getDapAn4());
-                rbOption4.setVisibility(View.VISIBLE);
-            } else {
-                rbOption4.setVisibility(View.GONE);
-            }
+            rbOption4.setText("4. " + question.getDapAn4());
+            rbOption4.setVisibility(question.getDapAn4().isEmpty() ? View.GONE : View.VISIBLE);
         }
 
         // Xử lý sự kiện chọn đáp án
