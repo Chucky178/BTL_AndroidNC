@@ -170,7 +170,7 @@ public class DetailResultAdapter extends BaseAdapter {
         highlightCorrectAnswer(question.getDapAnDung(), userAnswer, rbOption1, rbOption2, rbOption3, rbOption4);
 
         // Set giải thích
-        tvExplanation.setText("Giải thích: " + question.getGiaiThichCauHoi());
+        tvExplanation.setText(question.getGiaiThichCauHoi());
 
         // Tạo Dialog
         new AlertDialog.Builder(context)

@@ -38,10 +38,10 @@
     <!-- Submit Button -->
     <Button
         android:id="@+id/submitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
         android:text="Kết thúc"
-        android:padding="12dp"
+        android:gravity="center"
         android:background="@drawable/button_bg"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp" />
