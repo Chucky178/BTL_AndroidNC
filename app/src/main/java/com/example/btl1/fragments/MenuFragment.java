@@ -36,7 +36,7 @@ public class MenuFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = null;
 
-                // Sử dụng if-else thay vì switch để kiểm tra ID của view
+                // kiểm tra ID của view
                 if (v.getId() == R.id.layoutQuestion) {
                     intent = new Intent(getActivity(), MainActivity.class);
                 } else if (v.getId() == R.id.layoutExam) {

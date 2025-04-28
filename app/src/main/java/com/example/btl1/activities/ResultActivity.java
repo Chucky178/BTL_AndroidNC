@@ -79,10 +79,11 @@ public class ResultActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        gridView.setOnItemClickListener((adapterView, view, position, id) -> {
-            DetailResultEntity result = detailResultList.get(position);
-            loadQuestionFromFirebase(result.getQuestionId(), result.getSelectedAnswer());
-        });
+
+//        gridView.setOnItemClickListener((adapterView, view, position, id) -> {
+//            DetailResultEntity result = detailResultList.get(position);
+//            loadQuestionFromFirebase(result.getQuestionId(), result.getSelectedAnswer());
+//        });
     }
 
     private void loadExamInfo() {
@@ -92,7 +93,7 @@ public class ResultActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 if (resultEntity != null) {
                     tvExamStatus.setText(resultEntity.getStatus());
-
+                    tvName.setText(resultEntity.getExamName());
                     if (resultEntity.getStatus().equalsIgnoreCase("Đạt")) {
                         tvExamStatus.setTextColor(ContextCompat.getColor(ResultActivity.this, R.color.correct_answer));
                     } else {
@@ -107,9 +108,6 @@ public class ResultActivity extends AppCompatActivity {
 
                     // Cập nhật đúng mã đề thi
                     maDeThi = resultEntity.getExamId();
-
-                    // Gọi để lấy tên đề thi từ Firebase
-                    loadExamNameFromFirebase(maDeThi);
 
                 } else {
                     tvExamStatus.setText("Không tìm thấy kết quả");
@@ -163,51 +161,6 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
     }
-
-
-    private void loadQuestionFromFirebase(String maCauHoi, String luaChon) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("cau hoi");
-
-        ref.orderByChild("ma_cau_hoi").equalTo(maCauHoi)
-                .addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        for (DataSnapshot child : snapshot.getChildren()) {
-                            String noiDung = child.child("noi_dung_cau_hoi").getValue(String.class);
-                            String dapAnDung = child.child("dap_an_dung").getValue(String.class);
-                            String giaiThich = child.child("giai_thich_cau_hoi").getValue(String.class);
-
-                            String d1 = child.child("dap_an_1").getValue(String.class);
-                            String d2 = child.child("dap_an_2").getValue(String.class);
-                            String d3 = child.child("dap_an_3").getValue(String.class);
-                            String d4 = child.child("dap_an_4").getValue(String.class);
-
-                            StringBuilder builder = new StringBuilder();
-                            builder.append("Câu hỏi: ").append(noiDung).append("\n\n")
-                                    .append("A. ").append(d1).append("\n")
-                                    .append("B. ").append(d2).append("\n");
-                            if (d3 != null && !d3.isEmpty()) builder.append("C. ").append(d3).append("\n");
-                            if (d4 != null && !d4.isEmpty()) builder.append("D. ").append(d4).append("\n\n");
-
-                            builder.append("Bạn chọn: ").append(chuyenDapAn(luaChon)).append("\n")
-                                    .append("Đáp án đúng: ").append(chuyenDapAn(dapAnDung)).append("\n\n")
-                                    .append("Giải thích: ").append(giaiThich);
-
-                            new AlertDialog.Builder(ResultActivity.this)
-                                    .setTitle("Chi tiết câu hỏi")
-                                    .setMessage(builder.toString())
-                                    .setPositiveButton("Đóng", null)
-                                    .show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        Toast.makeText(ResultActivity.this, "Lỗi tải dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
     private String chuyenDapAn(String dapAn) {
         switch (dapAn) {
             case "dap_an_1": return "A";
@@ -228,34 +181,55 @@ public class ResultActivity extends AppCompatActivity {
             Toast.makeText(this, "Không tìm thấy mã đề thi để làm lại", Toast.LENGTH_SHORT).show();
         }
     }
-    private void loadExamNameFromFirebase(String maDe) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("de_thi");
 
-        ref.orderByChild("ma_de").equalTo(maDe)
-                .addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            for (DataSnapshot child : snapshot.getChildren()) {
-                                String tenDe = child.child("ten_de").getValue(String.class);
-                                if (tenDe != null) {
-                                    tvName.setText(tenDe);
-                                }
-                            }
-                        } else {
-                            tvName.setText("Không tìm thấy đề thi");
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        Toast.makeText(ResultActivity.this, "Lỗi tải tên đề thi", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
+
+//    private void loadQuestionFromFirebase(String maCauHoi, String luaChon) {
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("cau hoi");
+//
+//        ref.orderByChild("ma_cau_hoi").equalTo(maCauHoi)
+//                .addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot snapshot) {
+//                        for (DataSnapshot child : snapshot.getChildren()) {
+//                            String noiDung = child.child("noi_dung_cau_hoi").getValue(String.class);
+//                            String dapAnDung = child.child("dap_an_dung").getValue(String.class);
+//                            String giaiThich = child.child("giai_thich_cau_hoi").getValue(String.class);
+//
+//                            String d1 = child.child("dap_an_1").getValue(String.class);
+//                            String d2 = child.child("dap_an_2").getValue(String.class);
+//                            String d3 = child.child("dap_an_3").getValue(String.class);
+//                            String d4 = child.child("dap_an_4").getValue(String.class);
+//
+//                            StringBuilder builder = new StringBuilder();
+//                            builder.append("Câu hỏi: ").append(noiDung).append("\n\n")
+//                                    .append("A. ").append(d1).append("\n")
+//                                    .append("B. ").append(d2).append("\n");
+//                            if (d3 != null && !d3.isEmpty()) builder.append("C. ").append(d3).append("\n");
+//                            if (d4 != null && !d4.isEmpty()) builder.append("D. ").append(d4).append("\n\n");
+//
+//                            builder.append("Bạn chọn: ").append(chuyenDapAn(luaChon)).append("\n")
+//                                    .append("Đáp án đúng: ").append(chuyenDapAn(dapAnDung)).append("\n\n")
+//                                    .append("Giải thích: ").append(giaiThich);
+//
+//                            new AlertDialog.Builder(ResultActivity.this)
+//                                    .setTitle("Chi tiết câu hỏi")
+//                                    .setMessage(builder.toString())
+//                                    .setPositiveButton("Đóng", null)
+//                                    .show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError error) {
+//                        Toast.makeText(ResultActivity.this, "Lỗi tải dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
+
+
 }

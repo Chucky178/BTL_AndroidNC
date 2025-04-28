@@ -49,16 +49,14 @@ public class ExamActivity extends AppCompatActivity {
         examAdapter = new ExamAdapter(this, examList, new ExamAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String maDe) {
-                // Khi nhấn vào đề thi, bạn truyền maDe vào intent
+                // Khi nhấn vào đề thi, truyền maDe vào intent
                 Intent intent = new Intent(ExamActivity.this, ExamDetailActivity.class);
-                intent.putExtra("ma_de", maDe); // Đảm bảo bạn truyền đúng kiểu dữ liệu
+                intent.putExtra("ma_de", maDe);
                 startActivity(intent);
             }
         });
 
         recyclerView.setAdapter(examAdapter);
-
-        // Giả sử bạn đã có mã tải dữ liệu từ Firebase ở đây
         loadExamData();
     }
     private void loadExamData() {
@@ -91,7 +89,6 @@ public class ExamActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int questionCount = (int) snapshot.getChildrenCount();  // Đếm số câu hỏi trả về
                         Log.d("ExamActivity", "Mã đề: " + maDe + " - Tổng số câu hỏi: " + questionCount);
-                        // Bạn có thể lưu số câu hỏi này vào exam hoặc làm gì đó với nó
                     }
 
                     @Override

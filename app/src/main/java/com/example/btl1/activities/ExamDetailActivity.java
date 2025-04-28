@@ -196,17 +196,17 @@ public class ExamDetailActivity extends AppCompatActivity {
                 .setTitle("Xác nhận nộp bài")
                 .setMessage("Bạn có chắc chắn muốn nộp bài không?")
                 .setPositiveButton("Nộp bài", (dialog, which) -> {
-                    submitExam(); // Người dùng đồng ý -> nộp bài
+                    submitExam(); // đồng ý
                 })
                 .setNegativeButton("Hủy", (dialog, which) -> {
-                    dialog.dismiss(); // Người dùng hủy -> đóng dialog
+                    dialog.dismiss(); //  hủy
                 })
-                .setCancelable(false) // Không cho bấm ngoài để tắt dialog
+                .setCancelable(true) // cho bấm ngoài để tắt dialog
                 .show();
     }
 
     private void saveResultToRoomDatabase(Result result, String examName) {
-        // Create a ResultEntity from the Result object
+        // Tạo một đối tượng ResultEntity từ đối tượng Result
         ResultEntity resultEntity = new ResultEntity(
                 result.getMa_ket_qua(),
                 result.getMa_de(),
@@ -218,13 +218,13 @@ public class ExamDetailActivity extends AppCompatActivity {
                 result.getTrang_thai()
         );
 
-        // Create repository and save result
+        // Tạo repository và luu result
         ResultRepository repository = new ResultRepository(getApplication());
         repository.insert(resultEntity);
     }
 
     private void saveDetailResultToRoomDatabase(List<ResultDetail> resultDetail, String maKetQua) {
-        // Tạo repository để thao tác database (đã xử lý nền)
+        // Tạo repository để thao tác database
         DetailResultRepository repository = new DetailResultRepository(getApplication());
 
         // Lặp qua danh sách resultDetail và lưu từng chi tiết câu hỏi
@@ -244,13 +244,13 @@ public class ExamDetailActivity extends AppCompatActivity {
 
 
     private void luuKetQuaThi() {
-        // Create result ID
+        // Tạo result ID
         String maKetQua = "KQ_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
 
-        // Calculate completion time in seconds
+        // Tinh tgian
         int thoiGianHoanThanhGiay = (int) ((19 * 60 * 1000 - timeLeftInMillis) / 1000);
 
-        // Create Result object
+        // Tạo Result object
         Result result = new Result();
         result.setMa_ket_qua(maKetQua);
         result.setMa_de(maDe);
@@ -264,24 +264,32 @@ public class ExamDetailActivity extends AppCompatActivity {
             result.setTrang_thai(score >= 21 ? "Đạt" : "Không đạt");
         }
 
-        // Set result details
+        // Thiết lập result details
         Map<String, ResultDetail> chiTietCauHoi = new HashMap<>();
         for (ResultDetail detail : resultDetail) {
             chiTietCauHoi.put(detail.getMa_cau_hoi(), detail);
         }
         result.setChi_tiet_cau_hoi(chiTietCauHoi);
 
-        // Get exam name to save to Room database
-        DatabaseReference examRef = FirebaseDatabase.getInstance().getReference("de_thi").child(maDe);
+        // Lấy tên đề thi để lưu vào cơ sở dữ liệu Room
+        DatabaseReference examRef = FirebaseDatabase.getInstance().getReference("de_thi");
         examRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String examName = "Bài thi";
-                if (snapshot.exists() && snapshot.child("ten_de").exists()) {
-                    examName = snapshot.child("ten_de").getValue(String.class);
+                String examName = "Bài thi";  // Default name in case not found
+                if (snapshot.exists()) {
+                    for (DataSnapshot examSnapshot : snapshot.getChildren()) {
+                        // Kiểm tra nếu ma_de trong dữ liệu giống với maDe của bạn
+                        String maDeFromFirebase = examSnapshot.child("ma_de").getValue(String.class);
+                        if (maDeFromFirebase != null && maDeFromFirebase.equals(maDe)) {
+                            // Nếu ma_de trùng, lấy ten_de
+                            examName = examSnapshot.child("ten_de").getValue(String.class);
+                            break;  // Dừng vòng lặp khi tìm thấy
+                        }
+                    }
                 }
 
-                // Save to Room database only
+                // Lưu vào database
                 saveResultToRoomDatabase(result, examName);
 
                 // Lưu chi tiết câu hỏi vào Room
@@ -301,11 +309,10 @@ public class ExamDetailActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // If we can't get the exam name, save with default name
+                // Nếu không lấy được tên đề thi, lưu với tên mặc định
                 saveResultToRoomDatabase(result, "Bài thi");
 
                 // Lưu chi tiết câu hỏi vào Room
-                saveDetailResultToRoomDatabase(resultDetail, maKetQua);
                 saveDetailResultToRoomDatabase(resultDetail, maKetQua);
 
                 // Chuyển qua màn hình kết quả

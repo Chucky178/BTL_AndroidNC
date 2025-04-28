@@ -18,15 +18,17 @@ public interface ResultDao {
 
 
     @Query("SELECT * FROM results")
-    List<ResultEntity> getAllResults(); // Return a List instead of LiveData
+    List<ResultEntity> getAllResults(); // Trả về một list thay vì LiveData
 
     @Query("Select * from results where timeCompleted= :time limit 1")
     ResultEntity getResultsByTime(int time);
 
     @Query("DELETE FROM results WHERE id = :resultId")
-    void deleteResult(String resultId);
+    void deleteResult(String resultId); // xoa theo id
+
     @Query("SELECT * FROM results WHERE id = :maKetQua LIMIT 1")
-    ResultEntity getResultById(String maKetQua);
+    ResultEntity getResultById(String maKetQua); //lay theo id
+
     // Xóa tất cả các bản ghi trong bảng result
     @Query("DELETE FROM results")
     void deleteAllResults();

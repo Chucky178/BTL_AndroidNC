@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             transaction.commit();
         }
         getSupportActionBar().setTitle("Ôn thi GPLX A1 - Câu hỏi");
+
         recyclerView = findViewById(R.id.recyclerViewTopics);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

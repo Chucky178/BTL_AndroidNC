@@ -45,7 +45,7 @@ public class QuestionDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Ánh xạ các phần tử UI
+        // Ánh xạ
         layoutExplanation = view.findViewById(R.id.layoutExplanation);
         tvQuestionContent = view.findViewById(R.id.tvQuestionContent);
         imgQuestion = view.findViewById(R.id.imgQuestion);

@@ -15,9 +15,9 @@ public class QuestionRepository {
 
     private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    // Phương thức lấy danh sách câu hỏi theo mã nhóm câu hỏi
+    // lấy danh sách câu hỏi theo mã nhóm câu hỏi
     public static void getQuestionsByTopic(String maNhomCauHoi, final DataCallback<List<Question>> callback) {
-        // Truy vấn vào đúng node "cau_hoi"
+        // Truy vấn vào "cau_hoi"
         DatabaseReference reference = database.getReference("cau hoi");
 
         // Lọc các câu hỏi theo ma_nhom_cau_hoi

@@ -64,8 +64,6 @@ public class QuestionListActivity extends AppCompatActivity {
         }
     }
 
-
-    // Phương thức tải tất cả câu hỏi
     // Phương thức tải tất cả câu hỏi
     private void loadAllQuestions() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("cau hoi");

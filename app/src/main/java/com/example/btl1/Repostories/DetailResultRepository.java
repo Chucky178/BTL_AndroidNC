@@ -49,7 +49,7 @@ public LiveData<List<DetailResultEntity>> getDetailsByResultId(String resultId) 
         }
     }
 
-    // AsyncTask để xóa dữ liệu trong bảng detail_results = = result
+    // AsyncTask để xóa dữ liệu trong bảng detail_results == result
     private static class DeleteDetailResultAsyncTask extends AsyncTask<String, Void, Void> {
         private DetailResultDao detailResultDao;
 

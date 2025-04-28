@@ -65,7 +65,6 @@ public class QuestionFragment extends Fragment {
                 imgQuestion.setVisibility(View.GONE);
             }
 
-            // Hiển thị đáp án 1
             // Hiển thị các đáp án
             rbOption1.setText("1. " + question.getDapAn1());
             rbOption1.setVisibility(question.getDapAn1().isEmpty() ? View.GONE : View.VISIBLE);

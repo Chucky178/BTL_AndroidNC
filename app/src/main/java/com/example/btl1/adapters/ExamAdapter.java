@@ -57,7 +57,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.DeThiViewHolde
 
         public DeThiViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTenDe = itemView.findViewById(R.id.tvTenDe); // Kết nối với TextView trong item_exam.xml
+            tvTenDe = itemView.findViewById(R.id.tvTenDe);
         }
     }
 

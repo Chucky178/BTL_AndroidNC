@@ -83,8 +83,8 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
 //            }
 //        });
         holder.itemView.setOnClickListener(view -> {
-            Topic selectedTopic = topics.get(position); // ✅ Lấy đúng kiểu
-            String maNhom = selectedTopic.getMa_nhom_cau_hoi(); // ✅ Lấy mã nhóm
+            Topic selectedTopic = topics.get(position); // Lấy đúng kiểu
+            String maNhom = selectedTopic.getMa_nhom_cau_hoi(); // Lấy mã nhóm
             String tenNhom = selectedTopic.getTen_nhom_cau_hoi();
             Intent intent = new Intent(context, QuestionListActivity.class);
 

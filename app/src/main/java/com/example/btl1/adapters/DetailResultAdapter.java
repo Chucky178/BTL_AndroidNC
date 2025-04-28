@@ -204,27 +204,27 @@ public class DetailResultAdapter extends BaseAdapter {
             if (rb.getVisibility() == View.VISIBLE) {
                 String key = entry.getKey();
 
-                // Không dùng setEnabled(false)
+
                 rb.setClickable(false);
                 rb.setFocusable(false);
 
                 // Gán mặc định màu đen trước
                 rb.setTextColor(ContextCompat.getColor(context, R.color.black));
-                rb.setTypeface(Typeface.DEFAULT); // Mặc định bình thường
+                rb.setTypeface(Typeface.DEFAULT);
 
                 // Nếu là đáp án đúng
                 if (key.equals(correctAnswerKey)) {
-                    rb.setTextColor(ContextCompat.getColor(context, R.color.correct_answer)); // màu xanh
-                    rb.setTypeface(Typeface.DEFAULT_BOLD); // In đậm
+                    rb.setTextColor(ContextCompat.getColor(context, R.color.correct_answer));
+                    rb.setTypeface(Typeface.DEFAULT_BOLD);
                 }
 
                 // Nếu người dùng chọn đáp án này
                 if (key.equals(userAnswerKey)) {
-                    rb.setChecked(true); // Select vào đáp án người dùng chọn
+                    rb.setChecked(true); // Select vào
 
                     // Nếu chọn sai
                     if (!userAnswerKey.equals(correctAnswerKey)) {
-                        rb.setTextColor(ContextCompat.getColor(context, R.color.wrong_answer)); // màu đỏ
+                        rb.setTextColor(ContextCompat.getColor(context, R.color.wrong_answer));
                     }
                 }
             }
