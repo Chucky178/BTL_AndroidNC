@@ -2597,7 +2597,7 @@
             "dap_an_4": "Xe con, mô tô, xe tải.",
             "dap_an_dung": "dap_an_3",
             "hinh_anh": "c167",
-            "giai_thich_cau_hoi": "Xe con thường được ưu tiên trước xe tải và mô tô trong tình huống thông thường, giả định không có biển báo ưu tiên."
+            "giai_thich_cau_hoi": "Theo nguyên tắc nhường đường tại nơi giao nhau, xe ưu tiên đi trước, tiếp theo đến xe trên đường ưu tiên, rồi đến xe bên phải. Trong tình huống giả định này, mô tô đi trước (vì đi thẳng hoặc không vướng), sau đó đến xe con, cuối cùng là xe tải."
         },
         {
             "ma_cau_hoi": "CH168",
@@ -2612,7 +2612,7 @@
             "dap_an_4": "",
             "dap_an_dung": "dap_an_2",
             "hinh_anh": "c168",
-            "giai_thich_cau_hoi": "Xe con thường được ưu tiên trước mô tô trong tình huống giao nhau không có đèn hoặc biển báo, giả định xe con ở đường ưu tiên."
+            "giai_thich_cau_hoi": "Trong tình huống giao nhau không có đèn tín hiệu hoặc biển báo, xe nào không vướng từ bên phải và đi trên đường ưu tiên sẽ được quyền đi trước. Giả định trong câu hỏi, xe con đi trên đường ưu tiên nên được đi trước mô tô."
         },
         {
             "ma_cau_hoi": "CH169",
@@ -2728,7 +2728,7 @@
             "noi_dung_cau_hoi": "Xe nào đỗ vi phạm quy tắc giao thông?",
             "dap_an_1": "Chỉ mô tô.",
             "dap_an_2": "Chỉ xe tải.",
-            "dap_an_3": "Cả ba xe.",
+            "dap_an_3": "Cả hai xe.",
             "dap_an_4": "Chỉ mô tô và xe tải.",
             "dap_an_dung": "dap_an_3",
             "hinh_anh": "c175",
