@@ -61,8 +61,12 @@ public class ExamDetailActivity extends AppCompatActivity {
         tabLayoutExam = findViewById(R.id.tabLayoutExam);
         viewPager2 = findViewById(R.id.viewPagerQuestions);
         timerTextView = findViewById(R.id.tvTimer);
-        getSupportActionBar().setTitle("Làm đề thi thử");
 
+// Cài đặt ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Làm đề thi thử");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         maDe = getIntent().getStringExtra("ma_de");
         Log.d("loadExamQuestions", "Mã đề: " + maDe);
 
@@ -71,7 +75,7 @@ public class ExamDetailActivity extends AppCompatActivity {
 //        startTimer();
         loadExamQuestions(maDe);
 
-        findViewById(R.id.submitButton).setOnClickListener(v -> submitExam());
+        findViewById(R.id.submitButton).setOnClickListener(v -> showSubmitConfirmationDialog());
 
     }
 
@@ -186,6 +190,19 @@ public class ExamDetailActivity extends AppCompatActivity {
 
         countDownTimer.cancel();
         luuKetQuaThi();
+    }
+    private void showSubmitConfirmationDialog() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Xác nhận nộp bài")
+                .setMessage("Bạn có chắc chắn muốn nộp bài không?")
+                .setPositiveButton("Nộp bài", (dialog, which) -> {
+                    submitExam(); // Người dùng đồng ý -> nộp bài
+                })
+                .setNegativeButton("Hủy", (dialog, which) -> {
+                    dialog.dismiss(); // Người dùng hủy -> đóng dialog
+                })
+                .setCancelable(false) // Không cho bấm ngoài để tắt dialog
+                .show();
     }
 
     private void saveResultToRoomDatabase(Result result, String examName) {
@@ -310,5 +327,10 @@ public class ExamDetailActivity extends AppCompatActivity {
             case "dap_an_4": return question.getDapAn4();
             default: return "";
         }
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

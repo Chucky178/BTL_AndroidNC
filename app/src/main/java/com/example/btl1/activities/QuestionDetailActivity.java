@@ -54,7 +54,12 @@ public class QuestionDetailActivity extends AppCompatActivity {
         // Kết nối TabLayout và ViewPager2
         new TabLayoutMediator(tabLayoutQuestions, viewPager, (tab, tabPosition) -> {
             Question question = questionList.get(tabPosition);
-            tab.setText(question.getThuTu());
+            String thuTu = question.getThuTu();
+            if ("1".equals(question.getIsCauDiemLiet())) {
+                thuTu += " *"; // nếu câu điểm liệt thì thêm dấu *
+            }
+            tab.setText(thuTu);
+
         }).attach();
     }
 

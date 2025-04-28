@@ -37,7 +37,12 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
     public void onBindViewHolder(@NonNull QuestionViewHolder holder, int position) {
         Question question = questionList.get(position);
         holder.tvQuestionContent.setText(question.getNoiDungCauHoi());
-        holder.tvIndex.setText(question.getThuTu());
+        String thuTu = question.getThuTu();
+        if ("1".equals(question.getIsCauDiemLiet())) {
+            thuTu += " *"; // nếu câu điểm liệt thì thêm dấu *
+        }
+        holder.tvIndex.setText(thuTu);
+
         // Nhấn vào câu hỏi để mở chi tiết
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, QuestionDetailActivity.class);

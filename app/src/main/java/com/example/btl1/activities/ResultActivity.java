@@ -53,8 +53,12 @@ public class ResultActivity extends AppCompatActivity {
         tv_wrong_count = findViewById(R.id.tv_wrong_count);
         tv_unanswered_count = findViewById(R.id.tv_unanswered_count);
         btnViewHistory = findViewById(R.id.btnViewHistory);
-        getSupportActionBar().setTitle("Kết quả thi");
 
+// Cài đặt ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Kết quả thi");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         // Lấy dữ liệu từ Intent
         Intent intent = getIntent();
         int score = intent.getIntExtra("score", 0);
@@ -249,5 +253,9 @@ public class ResultActivity extends AppCompatActivity {
                     }
                 });
     }
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }

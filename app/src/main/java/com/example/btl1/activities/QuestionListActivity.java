@@ -35,8 +35,12 @@ public class QuestionListActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewQuestions);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        getSupportActionBar().setTitle("Danh sách câu hỏi");
 
+// Cài đặt ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Danh sách câu hỏi");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         questionList = new ArrayList<>();
 
         // Khởi tạo adapter và gắn vào RecyclerView
@@ -157,5 +161,9 @@ public class QuestionListActivity extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }

@@ -69,7 +69,17 @@ public class QuestionDetailFragment extends Fragment {
             return;
         }
 
-        tvQuestionIndex.setText(question.getThuTu());
+        if (question == null) {
+            Toast.makeText(getContext(), "Lỗi: Không tìm thấy câu hỏi!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String thuTu = question.getThuTu();
+        if ("1".equals(question.getIsCauDiemLiet())) {
+            thuTu += " *"; // nếu câu điểm liệt thì thêm dấu *
+        }
+        tvQuestionIndex.setText(thuTu);
+
         // Hiển thị nội dung câu hỏi
         tvQuestionContent.setText(question.getNoiDungCauHoi());
 
